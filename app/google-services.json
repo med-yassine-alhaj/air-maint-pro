@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94251673292",
+    "project_id": "air-maint-pro",
+    "storage_bucket": "air-maint-pro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94251673292:android:fad1e015d4895fe81f4469",
+        "android_client_info": {
+          "package_name": "com.example.air_maint_pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHaLbbKoECrDMMHc3qfGPGWex30UiensI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
