@@ -141,7 +141,7 @@
                 android:src="@android:drawable/checkbox_on_background"
                 android:layout_marginStart="4dp"
                 android:visibility="gone"
-                android:tint="@color/status_done" />
+                app:tint="@color/status_done" />
         </LinearLayout>
 
         <LinearLayout
