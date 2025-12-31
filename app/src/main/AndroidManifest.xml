@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions nécessaires pour Firebase -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -14,32 +15,19 @@
         android:theme="@style/Theme.AirMaintPro"
         tools:targetApi="31">
 
-        <!-- Login Activity comme activité principale -->
+        <!-- ✅ LOGIN : activité de démarrage -->
+
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <!-- Dashboard Superviseur -->
-        <activity
-            android:name=".SupervisorDashboardActivity"
-            android:exported="false" />
-
-<!--        &lt;!&ndash; Autres activités (à créer plus tard) &ndash;&gt;-->
-<!--        <activity-->
-        <activity
-            android:name=".AddEditTechnicianActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".TechniciansListActivity"
-            android:exported="false" />
-
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".EmployeeActivity" />
 
     </application>
 
