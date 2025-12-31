@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/card_bg"
+    android:elevation="1dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Solution appliquée"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Décrivez la solution que vous avez appliquée pour résoudre le problème."
+        android:textSize="14sp"
+        android:textColor="@color/muted_text"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description de la solution"
+        android:textSize="16sp"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Ex: Joint défectueux remplacé. Vérification de pression après intervention..."
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextSolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:minLines="5"
+            android:maxLines="10"
+            android:gravity="top|start"
+            android:paddingTop="16dp"
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Durée réelle (heures)"
+        android:textSize="16sp"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Ex: 4"
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextActualDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonSaveSolution"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Enregistrer la solution"
+        android:backgroundTint="@color/main"
+        android:textColor="@color/main_text"
+        android:textSize="16sp"
+        android:drawableStart="@android:drawable/ic_menu_save"
+        android:drawablePadding="8dp" />
+
+</LinearLayout>
+
+

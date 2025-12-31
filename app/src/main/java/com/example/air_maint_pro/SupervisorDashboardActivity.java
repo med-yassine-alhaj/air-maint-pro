@@ -42,7 +42,10 @@ public class SupervisorDashboardActivity extends AppCompatActivity {
                     return true;
                 }
                 else if (itemId == R.id.nav_interventions) {  // NEW
-                    loadFragment(new InterventionsFragment());
+                    // TODO: Replace with actual technician ID from Firebase Auth
+                    // For now, using TechnicianInterventionsFragment for technicians
+                    // loadFragment(new InterventionsFragment()); // Supervisor view
+                    loadFragment(new com.example.air_maint_pro.intervention_management.TechnicianInterventionsFragment());
                     return true;
                 }
 

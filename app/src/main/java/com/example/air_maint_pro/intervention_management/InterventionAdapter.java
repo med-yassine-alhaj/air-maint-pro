@@ -27,10 +27,19 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
     private FirebaseFirestore db;
     private Map<String, String> avionMatriculeCache = new HashMap<>();
     private Map<String, String> technicianNameCache = new HashMap<>();
+    private OnInterventionClickListener onItemClickListener;
+
+    public interface OnInterventionClickListener {
+        void onInterventionClick(Intervention intervention);
+    }
 
     public InterventionAdapter(List<Intervention> interventionList) {
         this.interventionList = interventionList;
         this.db = FirebaseFirestore.getInstance();
+    }
+
+    public void setOnItemClickListener(OnInterventionClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -152,10 +161,9 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
 
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
-            // Handle item click - open intervention details
-            // Intent intent = new Intent(v.getContext(), InterventionDetailActivity.class);
-            // intent.putExtra("intervention_id", intervention.getId());
-            // v.getContext().startActivity(intent);
+            if (onItemClickListener != null) {
+                onItemClickListener.onInterventionClick(intervention);
+            }
         });
     }
 

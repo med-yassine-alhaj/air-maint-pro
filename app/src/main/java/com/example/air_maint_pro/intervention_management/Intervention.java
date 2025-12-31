@@ -11,6 +11,7 @@ public class Intervention {
     private float dureeHeures;
     private String statut;
     private String descriptionProbleme;
+    private String remarques; // Observations/Remarks
     private String descriptionSolution;
     private Date createdAt;
     private Date updatedAt;
@@ -104,6 +105,15 @@ public class Intervention {
 
     public void setDescriptionProbleme(String descriptionProbleme) {
         this.descriptionProbleme = descriptionProbleme;
+        this.updatedAt = new Date();
+    }
+
+    public String getRemarques() {
+        return remarques != null ? remarques : "";
+    }
+
+    public void setRemarques(String remarques) {
+        this.remarques = remarques;
         this.updatedAt = new Date();
     }
 

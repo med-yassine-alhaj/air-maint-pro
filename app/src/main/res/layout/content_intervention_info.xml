@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- General Information -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Informations générales"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Aircraft -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:padding="12dp"
+        android:background="@color/card_bg"
+        android:elevation="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_plane"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Avion" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avion"
+                android:textSize="12sp"
+                android:textColor="@color/muted_text" />
+
+            <TextView
+                android:id="@+id/textAircraft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N-GXYZ - Airbus A320"
+                android:textSize="14sp"
+                android:textColor="@color/card_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Supervisor -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:padding="12dp"
+        android:background="@color/card_bg"
+        android:elevation="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Superviseur" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Superviseur"
+                android:textSize="12sp"
+                android:textColor="@color/muted_text" />
+
+            <TextView
+                android:id="@+id/textSupervisor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Smith"
+                android:textSize="14sp"
+                android:textColor="@color/card_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Assigned Technician -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:padding="12dp"
+        android:background="@color/card_bg"
+        android:elevation="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Technicien" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Technicien assigné"
+                android:textSize="12sp"
+                android:textColor="@color/muted_text" />
+
+            <TextView
+                android:id="@+id/textTechnician"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sarah Johnson"
+                android:textSize="14sp"
+                android:textColor="@color/card_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Zone -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:padding="12dp"
+        android:background="@color/card_bg"
+        android:elevation="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_wrench"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Zone" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zone"
+                android:textSize="12sp"
+                android:textColor="@color/muted_text" />
+
+            <TextView
+                android:id="@+id/textZone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wing Section A"
+                android:textSize="14sp"
+                android:textColor="@color/card_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Duration -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"
+        android:background="@color/card_bg"
+        android:elevation="1dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_recent_history"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Durée" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Durée"
+                android:textSize="12sp"
+                android:textColor="@color/muted_text" />
+
+            <TextView
+                android:id="@+id/textDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 hours"
+                android:textSize="14sp"
+                android:textColor="@color/card_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Problem Description -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description du problème"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/textProblemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hydraulic system check following leak detected during previous flight."
+        android:textSize="14sp"
+        android:textColor="@color/card_text"
+        android:padding="16dp"
+        android:background="@color/accent"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>
+
+

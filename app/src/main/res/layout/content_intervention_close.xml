@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/card_bg"
+    android:elevation="1dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fermer l'intervention"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Before closing section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Avant de fermer"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        android:layout_marginBottom="12dp" />
+
+    <LinearLayout
+        android:id="@+id/layoutRemarquesStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
+        android:background="@color/secondary">
+
+        <ImageView
+            android:id="@+id/iconRemarquesStatus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/checkbox_off_background"
+            android:layout_marginEnd="12dp"
+            android:tint="@color/error" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Remarques complétées"
+            android:textSize="14sp"
+            android:textColor="@color/card_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutSolutionStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"
+        android:background="@color/secondary">
+
+        <ImageView
+            android:id="@+id/iconSolutionStatus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/checkbox_off_background"
+            android:layout_marginEnd="12dp"
+            android:tint="@color/error" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Solution complétée"
+            android:textSize="14sp"
+            android:textColor="@color/card_text" />
+    </LinearLayout>
+
+    <!-- Warning -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/status_waiting"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_dialog_alert"
+            android:layout_marginEnd="12dp"
+            android:tint="@color/text" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Une fois fermée, vous ne pourrez plus modifier cette intervention. Un rapport PDF sera automatiquement généré."
+            android:textSize="14sp"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonCloseIntervention"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Fermer l'intervention"
+        android:backgroundTint="@color/status_done"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:drawableStart="@android:drawable/checkbox_on_background"
+        android:drawablePadding="8dp"
+        android:enabled="false" />
+
+</LinearLayout>
+
+
