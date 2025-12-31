@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.air_maint_pro.intervention_management.InterventionsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,13 @@ public class SupervisorDashboardActivity extends AppCompatActivity {
                 if (itemId == R.id.nav_home) {
                     loadFragment(new HomeFragment());
                     return true;
-                } else if (itemId == R.id.nav_users) {
+                }
+                else if (itemId == R.id.nav_interventions) {  // NEW
+                    loadFragment(new InterventionsFragment());
+                    return true;
+                }
+
+                else if (itemId == R.id.nav_users) {
                     loadFragment(new UsersFragment());
                     return true;
                 } else if (itemId == R.id.nav_settings) {

@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AirMaint Pro</string>
+    <string name="interventions">Interventions</string>
+    <string name="home">Accueil</string>
+    <string name="users">Utilisateurs</string>
+    <string name="settings">Paramètres</string>
+    <string name="no_interventions">Aucune intervention trouvée</string>
+    <string name="add_intervention">Ajouter une intervention</string>
+
+
+
+
+
+
+
+
+    <string name="select_date">Sélectionner la date</string>
+    <string name="date_not_selected">Non sélectionnée</string>
+    <string name="add">Ajouter</string>
+    <string name="cancel">Annuler</string>
+    <string name="intervention_type">Type d\'intervention</string>
+    <string name="select_aircraft">Sélectionner un avion</string>
+    <string name="select_technician">Sélectionner un technicien</string>
+    <string name="duration_hours">Durée (heures)</string>
+    <string name="problem_description">Description du problème</string>
+    <string name="status">Statut</string>
+    <string name="intervention_date">Date d\'intervention</string>
+    <string name="intervention_added">Intervention ajoutée avec succès!</string>
+    <string name="error_selection">Erreur: sélection invalide</string>
 </resources>
