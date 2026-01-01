@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- IDs pour TechnicienHomeActivity -->
+    <item name="tvWelcome" type="id" />
+    <item name="tvInfo" type="id" />
+    <item name="btnLogout" type="id" />
+    <item name="btnTasks" type="id" />
+    <item name="btnProfile" type="id" />
+    <item name="btnReports" type="id" />
+</resources>
