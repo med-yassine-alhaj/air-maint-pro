@@ -46,6 +46,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.google.firebase:firebase-common-ktx:20.4.2")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     // Pour Bottom Navigation

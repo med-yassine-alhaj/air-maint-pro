@@ -18,8 +18,8 @@
         <!-- Activité de Login -->
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AirMaintPro.NoActionBar">
+            android:theme="@style/AppTheme.Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -45,6 +45,10 @@
             android:exported="false"
             android:theme="@style/Theme.AirMaintPro"
             android:label="Espace Technicien" />
+        <activity
+            android:name=".EditTechnicienActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
     </application>
 

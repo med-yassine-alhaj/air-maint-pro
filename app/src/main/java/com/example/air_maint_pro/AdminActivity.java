@@ -38,7 +38,8 @@ public class AdminActivity extends AppCompatActivity {
 
         // Load default fragment (home)
         if (savedInstanceState == null) {
-            loadFragment(new TechnicienListFragment());
+            loadFragment(new AdminHomeFragment()); // Changer ici
+            bottomNavigation.setSelectedItemId(R.id.nav_home);
         }
     }
 
@@ -47,14 +48,13 @@ public class AdminActivity extends AppCompatActivity {
 
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
-            fragment = new TechnicienListFragment();
+            fragment = new AdminHomeFragment(); // Changer ici
         } else if (itemId == R.id.nav_interventions) {
             fragment = new InterventionsFragment();
         } else if (itemId == R.id.nav_users) {
-            fragment = new TechnicienListFragment(); // For now, same as home
+            fragment = new TechnicienListFragment(); // Liste des techniciens
         } else if (itemId == R.id.nav_settings) {
-            // Settings fragment can be added later
-            return false;
+            fragment = new SettingsFragment(); // Paramètres
         }
 
         if (fragment != null) {
