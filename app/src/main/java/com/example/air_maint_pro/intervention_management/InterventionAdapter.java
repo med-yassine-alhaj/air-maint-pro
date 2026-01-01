@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.air_maint_pro.Avion;
 import com.example.air_maint_pro.R;
-import com.example.air_maint_pro.Technician;
+import com.example.air_maint_pro.Technicien;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -105,11 +105,11 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                 holder.textTechnicianId.setText("Technicien: " + technicianNameCache.get(technicianId));
             } else {
                 holder.textTechnicianId.setText("Technicien: Chargement...");
-                db.collection("technicians").document(technicianId)
+                db.collection("Users").document(technicianId)
                         .get()
                         .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
-                                Technician technician = documentSnapshot.toObject(Technician.class);
+                                Technicien technician = documentSnapshot.toObject(Technicien.class);
                                 if (technician != null) {
                                     String fullName = technician.getFullName();
                                     technicianNameCache.put(technicianId, fullName);

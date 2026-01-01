@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nav_technician_home"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
         android:title="Accueil"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_technician_tasks"
-        android:icon="@drawable/ic_tasks"
-        android:title="Tâches"
+        android:id="@+id/nav_interventions"
+        android:icon="@drawable/ic_wrench"
+        android:title="Interventions"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_technician_profile"
-        android:icon="@drawable/ic_profile"
-        android:title="Profil"
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Paramètres"
         app:showAsAction="ifRoom" />
 
 </menu>

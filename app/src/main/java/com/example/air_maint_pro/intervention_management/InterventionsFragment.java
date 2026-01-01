@@ -18,7 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.air_maint_pro.Avion;
 import com.example.air_maint_pro.R;
-import com.example.air_maint_pro.Technician;
+import com.example.air_maint_pro.Technicien;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -50,7 +51,7 @@ public class InterventionsFragment extends Fragment {
 
     // For aircraft and technician data
     private List<Avion> avionList = new ArrayList<>();
-    private List<Technician> technicianList = new ArrayList<>();
+    private List<Technicien> technicianList = new ArrayList<>();
     private Map<String, String> avionMap = new HashMap<>(); // display string -> id
     private Map<String, String> technicianMap = new HashMap<>(); // display string -> id
 
@@ -251,8 +252,8 @@ public class InterventionsFragment extends Fragment {
     }
 
     private void loadTechnicians() {
-        db.collection("technicians")
-                .whereEqualTo("isActive", true) // Only active technicians
+        db.collection("Users")
+                .whereEqualTo("role", "technicien")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -261,13 +262,15 @@ public class InterventionsFragment extends Fragment {
                         technicianDisplayList.clear();
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Technician technician = document.toObject(Technician.class);
-                            technician.setId(document.getId());
-                            technicianList.add(technician);
+                            Technicien technician = document.toObject(Technicien.class);
+                            if (technician != null) {
+                                technician.id = document.getId();
+                                technicianList.add(technician);
 
-                            String display = technician.getFullName() + " - " + technician.getDepartment();
-                            technicianDisplayList.add(display);
-                            technicianMap.put(display, document.getId());
+                                String display = technician.getFullName() + " - " + technician.departement;
+                                technicianDisplayList.add(display);
+                                technicianMap.put(display, document.getId());
+                            }
                         }
 
                         // Update adapter
@@ -275,7 +278,7 @@ public class InterventionsFragment extends Fragment {
                             technicianAdapter.notifyDataSetChanged();
                         }
 
-                        System.out.println("DEBUG: Loaded " + technicianList.size() + " active technicians");
+                        System.out.println("DEBUG: Loaded " + technicianList.size() + " technicians");
                     } else {
                         System.out.println("DEBUG: Error loading technicians: " + task.getException().getMessage());
                     }
@@ -501,9 +504,11 @@ public class InterventionsFragment extends Fragment {
     }
 
     private String getCurrentSupervisorId() {
-        // TODO: Replace with actual supervisor ID from Firebase Auth
-        // Example: return FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return "supervisor_id_placeholder";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            return auth.getCurrentUser().getUid();
+        }
+        return "";
     }
 
     private void saveInterventionToFirestore(Intervention intervention) {
@@ -534,5 +539,15 @@ public class InterventionsFragment extends Fragment {
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Erreur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void showInterventionDetail(Intervention intervention) {
+        InterventionDetailFragment detailFragment = InterventionDetailFragment.newInstance(intervention.getId());
+        if (getActivity() != null) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, detailFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }

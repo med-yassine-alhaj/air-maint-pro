@@ -12,9 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.air_maint_pro.Avion;
 import com.example.air_maint_pro.R;
-import com.example.air_maint_pro.Technician;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -36,8 +35,8 @@ public class TechnicianInterventionsFragment extends Fragment {
     private TextView badgeActiveCount;
     private boolean isActiveTabSelected = true;
 
-    // TODO: Replace with actual technician ID from Firebase Auth or passed parameter
-    private String technicianId = "0391b1ac-c040-4803-bb8d-08c555ea2e6e"; // User will replace this
+    private FirebaseAuth auth;
+    private String technicianId;
 
     public TechnicianInterventionsFragment() {
         // Required empty public constructor
@@ -49,6 +48,12 @@ public class TechnicianInterventionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_interventions, container, false);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+
+        // Get technician ID from Firebase Auth
+        if (auth.getCurrentUser() != null) {
+            technicianId = auth.getCurrentUser().getUid();
+        }
 
         recyclerView = view.findViewById(R.id.recyclerViewInterventions);
         emptyStateText = view.findViewById(R.id.textEmptyState);
@@ -85,6 +90,14 @@ public class TechnicianInterventionsFragment extends Fragment {
     }
 
     private void loadInterventions() {
+        // Check if technician ID is available
+        if (technicianId == null || technicianId.isEmpty()) {
+            emptyStateText.setText("Erreur: Technicien non identifié");
+            emptyStateText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            return;
+        }
+
         // Filter by technician ID
         db.collection("interventions")
                 .whereEqualTo("technicienId", technicianId)

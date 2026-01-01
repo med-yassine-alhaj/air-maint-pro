@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.air_maint_pro.Avion;
 import com.example.air_maint_pro.R;
-import com.example.air_maint_pro.Technician;
+import com.example.air_maint_pro.Technicien;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -231,11 +231,11 @@ public class InterventionDetailFragment extends Fragment {
                 });
 
         // Load technician
-        db.collection("technicians").document(intervention.getTechnicienId())
+        db.collection("Users").document(intervention.getTechnicienId())
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        Technician technician = documentSnapshot.toObject(Technician.class);
+                        Technicien technician = documentSnapshot.toObject(Technicien.class);
                         if (technician != null) {
                             TextView textTechnician = infoView.findViewById(R.id.textTechnician);
                             textTechnician.setText(technician.getFullName());
