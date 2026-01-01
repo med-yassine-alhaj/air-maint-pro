@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                     fullName = email.split("@")[0];
                                 }
 
-                                if ("supervisor".equals(role)) {
+                                if ("superviseur".equals(role)) {
                                     Intent intent = new Intent(this, AdminActivity.class);
                                     intent.putExtra("fullName", fullName);
                                     intent.putExtra("nom", nom);

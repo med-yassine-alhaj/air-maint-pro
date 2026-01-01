@@ -104,7 +104,7 @@ public class AdminActivity extends AppCompatActivity {
                     String nom = doc.getString("nom");
                     String prenom = doc.getString("prenom");
 
-                    if (!"supervisor".equals(role)) {
+                    if (!"superviseur".equals(role)) {
                         redirectToLogin();
                         return;
                     }
@@ -114,7 +114,7 @@ public class AdminActivity extends AppCompatActivity {
                     } else if (nom != null) {
                         tvWelcome.setText("Bienvenue " + nom);
                     } else {
-                        tvWelcome.setText("Bienvenue Supervisor");
+                        tvWelcome.setText("Bienvenue superviseur");
                     }
                 })
                 .addOnFailureListener(e -> {
