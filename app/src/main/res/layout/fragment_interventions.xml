@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:padding="16dp">
+
+    <!-- Tab Buttons Container -->
+    <LinearLayout
+        android:id="@+id/tabContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:background="@color/secondary"
+        android:padding="4dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Active Tab -->
+        <LinearLayout
+            android:id="@+id/tabActive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/tab_background_selected"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Active"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/card_text" />
+
+            <TextView
+                android:id="@+id/badgeActiveCount"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/badge_background"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/main_text"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Historique Tab -->
+        <LinearLayout
+            android:id="@+id/tabHistorique"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/tab_background_unselected"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Historique"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/muted_text" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Empty State View -->
+    <TextView
+        android:id="@+id/textEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="no interventions"
+        android:textSize="18sp"
+        android:textColor="@color/muted_text"
+        android:visibility="gone" />
+
+    <!-- RecyclerView for Interventions -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewInterventions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabContainer"
+        android:visibility="gone" />
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddIntervention"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="add intervention"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/main"
+        app:tint="@color/main_text" />
+
+</RelativeLayout>

@@ -7,4 +7,91 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#808080</color>
+
+    <color name="material_on_surface_stroke">#6E6E6E</color>
+
+
+    <!-- Color palette:                              -->
+
+    <!-- ============================================= -->
+    <!-- 1. SCREEN & TEXT                              -->
+    <!-- ============================================= -->
+
+    <color name="bg">#F8FAFC</color>           <!-- Light gray screen background (slate-50) -->
+    <color name="text">#0F172A</color>         <!-- Dark text (slate-900) -->
+
+
+    <!-- ============================================= -->
+    <!-- 2. CARDS                                      -->
+    <!-- ============================================= -->
+
+    <color name="card_bg">#FFFFFF</color>      <!-- White card background -->
+    <color name="card_text">#0F172A</color>    <!-- Dark text inside cards (slate-900) -->
+
+
+    <!-- ============================================= -->
+    <!-- 3. MAIN BUTTONS & TITLES                      -->
+    <!-- ============================================= -->
+
+    <color name="main">#2563EB</color>         <!-- BLUE (primary brand color - blue-600) -->
+    <color name="main_text">#FFFFFF</color>    <!-- White text on buttons -->
+
+
+    <!-- ============================================= -->
+    <!-- 4. SECONDARY / MUTED                          -->
+    <!-- ============================================= -->
+
+    <!-- LIGHT GRAY BACKGROUND -->
+    <!-- Used for: secondary buttons, disabled items, subtle areas -->
+    <color name="secondary">#F1F5F9</color>     <!-- Light gray (slate-100) -->
+
+    <!-- DARK TEXT ON THAT LIGHT GRAY -->
+    <!-- Used for: text inside secondary buttons -->
+    <color name="secondary_text">#0F172A</color> <!-- Dark text (slate-900) -->
+
+    <!-- VERY LIGHT GRAY (used in many places) -->
+    <color name="muted">#F8FAFC</color>         <!-- Very light gray (slate-50) -->
+
+    <!-- MEDIUM GRAY TEXT -->
+    <!-- Used for: hints, timestamps, small info -->
+    <color name="muted_text">#475569</color>   <!-- Medium gray text (slate-600) -->
+
+
+    <!-- ============================================= -->
+    <!-- 5. ACCENT                                     -->
+    <!-- ============================================= -->
+
+    <!-- VERY LIGHT BLUE -->
+    <!-- Used for: highlighted rows, selected tabs, subtle highlights -->
+    <color name="accent">#EFF6FF</color>       <!-- Light blue background (blue-50) -->
+
+    <!-- DARK TEXT ON THAT ACCENT -->
+    <color name="accent_text">#1E3A8A</color>  <!-- Dark blue text (blue-900) -->
+
+
+    <!-- ============================================= -->
+    <!-- 6. ERROR / DELETE                             -->
+    <!-- ============================================= -->
+
+    <color name="error">#DC2626</color>        <!-- Red for delete / errors (red-600) -->
+    <color name="error_text">#FFFFFF</color>   <!-- White text on red -->
+
+
+    <!-- ============================================= -->
+    <!-- 7. INPUTS & BORDERS                           -->
+    <!-- ============================================= -->
+
+    <color name="border">#E2E8F0</color>       <!-- Border color (slate-200) -->
+    <color name="input_bg">#F8FAFC</color>     <!-- Input field background (slate-50) -->
+    <color name="switch_bg">#94A3B8</color>    <!-- Switch when off (slate-400) -->
+
+
+    <!-- ============================================= -->
+    <!-- 8. STATUS TAGS                                -->
+    <!-- ============================================= -->
+
+    <color name="status_waiting">#FCD34D</color>     <!-- Yellow: Pending (yellow-300) -->
+    <color name="status_in_progress">#2563EB</color> <!-- Blue: In Progress (blue-600) -->
+    <color name="status_done">#059669</color>        <!-- Green: Completed (green-600) -->
+
 </resources>
