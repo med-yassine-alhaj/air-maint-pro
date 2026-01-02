@@ -36,9 +36,10 @@ public class TechnicienHomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnItemSelectedListener(this::onNavigationItemSelected);
 
-        // Load default fragment (home - blank)
+        // Load default fragment (home)
         if (savedInstanceState == null) {
             loadFragment(new TechnicienHomeFragment());
+            bottomNavigation.setSelectedItemId(R.id.nav_home);
         }
     }
 
@@ -51,8 +52,7 @@ public class TechnicienHomeActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_interventions) {
             fragment = new TechnicianInterventionsFragment();
         } else if (itemId == R.id.nav_settings) {
-            // Settings fragment can be added later
-            return false;
+            fragment = new SettingsFragment(); // Utiliser le même SettingsFragment
         }
 
         if (fragment != null) {
