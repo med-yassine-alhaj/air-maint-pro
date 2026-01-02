@@ -220,7 +220,7 @@ public class InterventionsFragment extends Fragment {
     }
 
     private void loadAvions() {
-        db.collection("avions")
+        db.collection("Avions")
                 .whereEqualTo("etat", "Actif") // Optional: filter by active aircraft
                 .get()
                 .addOnCompleteListener(task -> {

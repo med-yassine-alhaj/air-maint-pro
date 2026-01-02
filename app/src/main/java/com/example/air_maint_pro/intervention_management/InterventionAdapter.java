@@ -70,7 +70,7 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                 holder.textPlaneId.setText("Avion: " + avionMatriculeCache.get(avionId));
             } else {
                 holder.textPlaneId.setText("Avion: Chargement...");
-                db.collection("avions").document(avionId)
+                db.collection("Avions").document(avionId)
                         .get()
                         .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {

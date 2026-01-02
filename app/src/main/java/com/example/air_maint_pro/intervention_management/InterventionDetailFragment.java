@@ -218,7 +218,7 @@ public class InterventionDetailFragment extends Fragment {
         if (intervention == null || infoView == null) return;
 
         // Load aircraft
-        db.collection("avions").document(intervention.getAvionId())
+        db.collection("Avions").document(intervention.getAvionId())
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
