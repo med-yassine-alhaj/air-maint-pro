@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.air_maint_pro.Avion;
+import com.example.air_maint_pro.gestion_avion.Avion;
 import com.example.air_maint_pro.R;
 import com.example.air_maint_pro.Technicien;
 import com.google.android.material.textfield.TextInputEditText;
@@ -256,7 +256,7 @@ public class InterventionDetailFragment extends Fragment {
 
         // Set problem description
         TextView textProblemDescription = infoView.findViewById(R.id.textProblemDescription);
-        textProblemDescription.setText(intervention.getDescriptionProbleme() != null ? 
+        textProblemDescription.setText(intervention.getDescriptionProbleme() != null ?
                 intervention.getDescriptionProbleme() : "Aucune description fournie");
     }
 
@@ -424,4 +424,3 @@ public class InterventionDetailFragment extends Fragment {
                 });
     }
 }
-

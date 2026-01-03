@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SettingsFragment extends Fragment {
@@ -23,7 +21,7 @@ public class SettingsFragment extends Fragment {
     private SwitchCompat switchDarkMode, switchNotifications;
     private Button btnLogout;
     private LinearLayout layoutSecurity, layoutHelp;
-    private TextView tvUserRole, tvUserName;
+
 
     private SharedPreferences sharedPreferences;
     private FirebaseAuth auth;

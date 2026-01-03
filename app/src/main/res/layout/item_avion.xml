@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Ligne 1 : Immatriculation et état -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvImmatriculation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="F-GABC"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <!-- Badge d'état -->
+            <TextView
+                android:id="@+id/tvEtat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En service"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:background="@drawable/bg_etat_actif" />
+
+        </LinearLayout>
+
+        <!-- Ligne 2 : Modèle et type -->
+        <TextView
+            android:id="@+id/tvModele"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Airbus A320"
+            android:textSize="16sp"
+            android:textColor="#7F8C8D"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Ligne 3 : Compagnie -->
+        <TextView
+            android:id="@+id/tvCompagnie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Air France"
+            android:textSize="14sp"
+            android:textColor="#7F8C8D"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Ligne 4 : Heures de vol -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_clock"
+                android:tint="#2196F3"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/tvHeuresVol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1500h"
+                android:textSize="14sp"
+                android:textColor="#2196F3" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Bouton QR Code -->
+            <ImageView
+                android:id="@+id/ivQrCode"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_qr_code"
+                android:tint="#2196F3"
+                android:padding="4dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

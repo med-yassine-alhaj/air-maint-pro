@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.air_maint_pro.Avion;
+import com.example.air_maint_pro.gestion_avion.Avion;
 import com.example.air_maint_pro.R;
 import com.example.air_maint_pro.Technicien;
 import com.google.firebase.auth.FirebaseAuth;
@@ -187,7 +187,7 @@ public class InterventionsFragment extends Fragment {
         isActiveTabSelected = true;
         tabActive.setBackgroundResource(R.drawable.tab_background_selected);
         tabHistorique.setBackgroundResource(R.drawable.tab_background_unselected);
-        
+
         // Update text colors - first child is the TextView
         if (tabActive.getChildCount() > 0 && tabActive.getChildAt(0) instanceof TextView) {
             TextView activeText = (TextView) tabActive.getChildAt(0);
@@ -197,7 +197,7 @@ public class InterventionsFragment extends Fragment {
             TextView historiqueText = (TextView) tabHistorique.getChildAt(0);
             historiqueText.setTextColor(getResources().getColor(R.color.muted_text, null));
         }
-        
+
         filterInterventions();
     }
 
@@ -205,7 +205,7 @@ public class InterventionsFragment extends Fragment {
         isActiveTabSelected = false;
         tabActive.setBackgroundResource(R.drawable.tab_background_unselected);
         tabHistorique.setBackgroundResource(R.drawable.tab_background_selected);
-        
+
         // Update text colors - first child is the TextView
         if (tabActive.getChildCount() > 0 && tabActive.getChildAt(0) instanceof TextView) {
             TextView activeText = (TextView) tabActive.getChildAt(0);
@@ -215,7 +215,7 @@ public class InterventionsFragment extends Fragment {
             TextView historiqueText = (TextView) tabHistorique.getChildAt(0);
             historiqueText.setTextColor(getResources().getColor(R.color.card_text, null));
         }
-        
+
         filterInterventions();
     }
 

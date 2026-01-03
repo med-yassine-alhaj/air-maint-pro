@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
 
+
         <!-- Activité Admin -->
         <activity
             android:name=".AdminActivity"
@@ -49,6 +50,21 @@
             android:name=".EditTechnicienActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.AddAvionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity
+            android:name=".gestion_avion.AvionDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity
+            android:name=".gestion_avion.EditAvionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
 
     </application>
 

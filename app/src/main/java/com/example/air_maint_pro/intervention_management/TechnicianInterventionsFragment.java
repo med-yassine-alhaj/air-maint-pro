@@ -174,7 +174,7 @@ public class TechnicianInterventionsFragment extends Fragment {
         isActiveTabSelected = true;
         tabActive.setBackgroundResource(R.drawable.tab_background_selected);
         tabHistorique.setBackgroundResource(R.drawable.tab_background_unselected);
-        
+
         if (tabActive.getChildCount() > 0 && tabActive.getChildAt(0) instanceof TextView) {
             TextView activeText = (TextView) tabActive.getChildAt(0);
             activeText.setTextColor(getResources().getColor(R.color.card_text, null));
@@ -183,7 +183,7 @@ public class TechnicianInterventionsFragment extends Fragment {
             TextView historiqueText = (TextView) tabHistorique.getChildAt(0);
             historiqueText.setTextColor(getResources().getColor(R.color.muted_text, null));
         }
-        
+
         filterInterventions();
     }
 
@@ -191,7 +191,7 @@ public class TechnicianInterventionsFragment extends Fragment {
         isActiveTabSelected = false;
         tabActive.setBackgroundResource(R.drawable.tab_background_unselected);
         tabHistorique.setBackgroundResource(R.drawable.tab_background_selected);
-        
+
         if (tabActive.getChildCount() > 0 && tabActive.getChildAt(0) instanceof TextView) {
             TextView activeText = (TextView) tabActive.getChildAt(0);
             activeText.setTextColor(getResources().getColor(R.color.muted_text, null));
@@ -200,7 +200,7 @@ public class TechnicianInterventionsFragment extends Fragment {
             TextView historiqueText = (TextView) tabHistorique.getChildAt(0);
             historiqueText.setTextColor(getResources().getColor(R.color.card_text, null));
         }
-        
+
         filterInterventions();
     }
 
@@ -216,4 +216,3 @@ public class TechnicianInterventionsFragment extends Fragment {
         }
     }
 }
-

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.air_maint_pro.gestion_avion.AvionListFragment;
 import com.example.air_maint_pro.intervention_management.InterventionsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,18 +44,21 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
+
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
 
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
-            fragment = new AdminHomeFragment(); // Changer ici
+            fragment = new AdminHomeFragment();
+        } else if (itemId == R.id.nav_avions) {
+            fragment = new AvionListFragment(); // Nouveau fragment
         } else if (itemId == R.id.nav_interventions) {
             fragment = new InterventionsFragment();
         } else if (itemId == R.id.nav_users) {
-            fragment = new TechnicienListFragment(); // Liste des techniciens
+            fragment = new TechnicienListFragment();
         } else if (itemId == R.id.nav_settings) {
-            fragment = new SettingsFragment(); // Paramètres
+            fragment = new SettingsFragment();
         }
 
         if (fragment != null) {

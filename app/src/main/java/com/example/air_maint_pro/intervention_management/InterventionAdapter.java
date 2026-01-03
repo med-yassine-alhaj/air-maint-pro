@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.air_maint_pro.Avion;
+import com.example.air_maint_pro.gestion_avion.Avion;
 import com.example.air_maint_pro.R;
 import com.example.air_maint_pro.Technicien;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -80,9 +80,9 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                                     avionMatriculeCache.put(avionId, matricule);
                                     // Update only if this holder still shows the same intervention
                                     int currentPosition = holder.getAdapterPosition();
-                                    if (currentPosition != RecyclerView.NO_POSITION && 
-                                        currentPosition < interventionList.size() &&
-                                        interventionList.get(currentPosition).getId().equals(intervention.getId())) {
+                                    if (currentPosition != RecyclerView.NO_POSITION &&
+                                            currentPosition < interventionList.size() &&
+                                            interventionList.get(currentPosition).getId().equals(intervention.getId())) {
                                         holder.textPlaneId.setText("Avion: " + matricule);
                                     }
                                 }
@@ -115,9 +115,9 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                                     technicianNameCache.put(technicianId, fullName);
                                     // Update only if this holder still shows the same intervention
                                     int currentPosition = holder.getAdapterPosition();
-                                    if (currentPosition != RecyclerView.NO_POSITION && 
-                                        currentPosition < interventionList.size() &&
-                                        interventionList.get(currentPosition).getId().equals(intervention.getId())) {
+                                    if (currentPosition != RecyclerView.NO_POSITION &&
+                                            currentPosition < interventionList.size() &&
+                                            interventionList.get(currentPosition).getId().equals(intervention.getId())) {
                                         holder.textTechnicianId.setText("Technicien: " + fullName);
                                     }
                                 }
