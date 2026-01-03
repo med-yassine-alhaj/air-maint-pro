@@ -106,6 +106,7 @@ public class AvionAdapter extends RecyclerView.Adapter<AvionAdapter.AvionViewHol
                     tvEtat.setBackgroundResource(R.drawable.bg_etat_hors_service);
                     break;
             }
+
         }
     }
 }

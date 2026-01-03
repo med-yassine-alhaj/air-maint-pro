@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F7FA">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/primary_color"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvAvionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Interventions - F-GABC"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tvInterventionCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 interventions"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:background="#FFFFFF33"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Bouton Ajouter Intervention (visible seulement pour superviseur) -->
+    <Button
+        android:id="@+id/btnAddIntervention"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="➕ Nouvelle Intervention"
+        android:textSize="16sp"
+        android:backgroundTint="#2ECC71"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:layout_margin="16dp" />
+
+    <!-- Liste des interventions -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvInterventions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+
+    <!-- Message si aucune intervention -->
+    <TextView
+        android:id="@+id/tvNoInterventions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aucune intervention pour cet avion"
+        android:textSize="16sp"
+        android:textColor="#7F8C8D"
+        android:gravity="center"
+        android:padding="40dp"
+        android:visibility="gone" />
+
+</LinearLayout>

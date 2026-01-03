@@ -15,6 +15,7 @@ public class Avion {
     public String description;
     public Date createdAt;
     public String createdBy;
+    public int interventionCount;
 
     // Constructeur vide nécessaire pour Firestore
     public Avion() {}
@@ -22,7 +23,7 @@ public class Avion {
     // Constructeur avec paramètres
     public Avion(String matricule, String modele, String type, String compagnie,
                  String etat, double heuresVol, Date derniereRevision,
-                 Date prochaineRevision, String description) {
+                 Date prochaineRevision, String description , int interventionCount) {
         this.matricule = matricule;
         this.modele = modele;
         this.type = type;
@@ -33,9 +34,16 @@ public class Avion {
         this.prochaineRevision = prochaineRevision;
         this.description = description;
         this.createdAt = new Date();
+        this.interventionCount = interventionCount;
     }
 
     // Getters
+    public int getInterventionCount() {
+        return interventionCount;
+    }
+    public void setInterventionCount(int interventionCount) {
+        this.interventionCount = interventionCount;
+    }
     public String getId() { return id; }
     public void setId(String id) {
         this.id = id;

@@ -172,18 +172,31 @@ public class AvionDetailsActivity extends AppCompatActivity {
             deleteAvion();
         });
     }
-
-    private void generateQrCode() {
-        // Pour l'instant, ouvrir une activité temporaire
-        Toast.makeText(this, "Génération du QR Code...", Toast.LENGTH_SHORT).show();
-        // Nous créerons l'activité QR Code plus tard
-    }
-
     private void openInterventions() {
         // Ouvrir la liste des interventions pour cet avion
-        Toast.makeText(this, "Ouverture des interventions...", Toast.LENGTH_SHORT).show();
-        // Nous créerons cette fonctionnalité plus tard
+        if (avion != null) {
+            Intent intent = new Intent(this, AvionInterventionsActivity.class);
+            intent.putExtra("avion_id", avionId);
+            intent.putExtra("matricule", avion.matricule);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Erreur: Avion non chargé", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    private void generateQrCode() {
+        // Ouvrir l'activité QR Code
+        if (avion != null) {
+            Intent intent = new Intent(this, QrCodeActivity.class);
+            intent.putExtra("avion_id", avionId);
+            intent.putExtra("matricule", avion.matricule);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Erreur: Avion non chargé", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void editAvion() {
         // Ouvrir l'activité de modification

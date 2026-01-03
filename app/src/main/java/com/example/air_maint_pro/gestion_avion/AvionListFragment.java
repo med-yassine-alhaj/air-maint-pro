@@ -76,7 +76,7 @@ public class AvionListFragment extends Fragment {
                 Toast.makeText(getContext(),
                         "QR Code - Fonctionnalité à venir",
                         Toast.LENGTH_SHORT).show();
-                // generateQrCode(avion);
+                    generateQrCode(avion);
             }
         });
 
@@ -108,19 +108,19 @@ public class AvionListFragment extends Fragment {
         // Ouvrir l'activité de détails
         Intent intent = new Intent(getContext(), AvionDetailsActivity.class);
         intent.putExtra("avion_id", avion.id);
-        intent.putExtra("immatriculation", avion.matricule);
+        intent.putExtra("matricule", avion.matricule);
         startActivity(intent);
     }
 
-    /*
+
     private void generateQrCode(Avion avion) {
         // Ouvrir l'activité QR Code - À CRÉER PLUS TARD
         Intent intent = new Intent(getContext(), QrCodeActivity.class);
         intent.putExtra("avion_id", avion.id);
-        intent.putExtra("immatriculation", avion.immatriculation);
+        intent.putExtra("matricule", avion.matricule);
         startActivity(intent);
     }
-    */
+
 
     @Override
     public void onResume() {
