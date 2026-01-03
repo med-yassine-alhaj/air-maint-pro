@@ -71,8 +71,16 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
+            android:name=".gestion_avion.QRScannerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
             android:name=".gestion_avion.AvionInterventionsActivity"
             android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.AssignAvionTechnicienActivity"
+            android:label="Assigner un technicien"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
 

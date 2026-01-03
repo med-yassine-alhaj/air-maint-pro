@@ -21,6 +21,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,6 +35,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="➕ Ajouter un avion"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#2196F3"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            app:cornerRadius="8dp"
+            style="@style/Widget.MaterialComponents.Button" />
+
+        <!-- Bouton Assigner Technicien - AJOUTEZ L'ID CORRECT -->
+        <Button
+            android:id="@+id/btnAssignTechnicien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📋 Assigner un technicien"
             android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="#2196F3"

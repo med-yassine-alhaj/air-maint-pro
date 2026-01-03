@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.air_maint_pro.gestion_avion.AvionTechnicienFragment; // Ajoutez cette importation
 import com.example.air_maint_pro.intervention_management.TechnicianInterventionsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,10 +50,12 @@ public class TechnicienHomeActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
             fragment = new TechnicienHomeFragment();
+        } else if (itemId == R.id.nav_avions) { // AJOUTEZ CE CAS
+            fragment = new AvionTechnicienFragment();
         } else if (itemId == R.id.nav_interventions) {
             fragment = new TechnicianInterventionsFragment();
         } else if (itemId == R.id.nav_settings) {
-            fragment = new SettingsFragment(); // Utiliser le même SettingsFragment
+            fragment = new SettingsFragment();
         }
 
         if (fragment != null) {

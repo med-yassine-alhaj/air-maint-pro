@@ -142,6 +142,9 @@ public class AddAvionActivity extends AppCompatActivity {
         avionData.put("prochaineRevision", null);
         avionData.put("createdAt", new Date());
         avionData.put("createdBy", auth.getCurrentUser().getUid());
+        avionData.put("interventionCount", 0);
+        avionData.put("technicienAssignId", "");
+        avionData.put("technicienAssignNom", "");
 
         // Vérifier si l'immatriculation existe déjà
         db.collection("Avions")

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.air_maint_pro.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -21,12 +22,16 @@ import java.util.Locale;
 public class AvionDetailsActivity extends AppCompatActivity {
 
     private TextView tvImmatriculation, tvEtat, tvModele, tvType, tvCompagnie,
-            tvHeuresVol, tvDerniereRevision, tvProchaineRevision, tvDescription;
-    private Button btnQrCode, btnInterventions, btnEdit, btnDelete;
-
+            tvHeuresVol, tvDerniereRevision, tvProchaineRevision, tvDescription,
+            tvTechnicienAssign;
+    private Button btnQrCode, btnInterventions, btnEdit, btnDelete, btnChangeTechnicien;
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
     private String avionId;
     private Avion avion;
+
+    // AJOUTEZ CETTE DÉCLARATION
+    private boolean isTechnicienView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +40,16 @@ public class AvionDetailsActivity extends AppCompatActivity {
 
         // Initialisation
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // Récupérer l'ID de l'avion
         Intent intent = getIntent();
         avionId = intent.getStringExtra("avion_id");
+
+        // Vérifier si c'est la vue technicien
+        if (intent.hasExtra("is_technicien_view")) {
+            isTechnicienView = intent.getBooleanExtra("is_technicien_view", false);
+        }
 
         if (avionId == null) {
             Toast.makeText(this, "Erreur: Aucun avion sélectionné", Toast.LENGTH_SHORT).show();
@@ -48,6 +59,9 @@ public class AvionDetailsActivity extends AppCompatActivity {
 
         // Initialiser les vues
         initViews();
+
+        // Masquer les boutons admin si technicien
+        hideAdminButtonsIfTechnicien();
 
         // Charger les données de l'avion
         loadAvionDetails();
@@ -67,10 +81,43 @@ public class AvionDetailsActivity extends AppCompatActivity {
         tvProchaineRevision = findViewById(R.id.tvProchaineRevision);
         tvDescription = findViewById(R.id.tvDescription);
 
+        // Vérifiez que ces IDs existent dans votre layout
+        try {
+            tvTechnicienAssign = findViewById(R.id.tvTechnicienAssign);
+        } catch (Exception e) {
+            // Ce TextView n'existe peut-être pas encore
+            tvTechnicienAssign = null;
+        }
+
         btnQrCode = findViewById(R.id.btnQrCode);
         btnInterventions = findViewById(R.id.btnInterventions);
         btnEdit = findViewById(R.id.btnEdit);
         btnDelete = findViewById(R.id.btnDelete);
+
+        // Vérifiez que ce bouton existe dans votre layout
+        try {
+            btnChangeTechnicien = findViewById(R.id.btnChangeTechnicien);
+        } catch (Exception e) {
+            btnChangeTechnicien = null;
+        }
+    }
+
+    private void hideAdminButtonsIfTechnicien() {
+        if (isTechnicienView) {
+            // Masquer les boutons admin
+            if (btnEdit != null) {
+                btnEdit.setVisibility(View.GONE);
+            }
+
+            if (btnDelete != null) {
+                btnDelete.setVisibility(View.GONE);
+            }
+
+            if (btnChangeTechnicien != null) {
+                btnChangeTechnicien.setVisibility(View.GONE);
+            }
+
+        }
     }
 
     private void loadAvionDetails() {
@@ -149,31 +196,71 @@ public class AvionDetailsActivity extends AppCompatActivity {
         } else {
             tvDescription.setText("Aucune description");
         }
+
+        // Technicien assigné (si le TextView existe)
+        if (tvTechnicienAssign != null) {
+            if (avion.technicienAssignNom != null && !avion.technicienAssignNom.isEmpty()) {
+                tvTechnicienAssign.setText(avion.technicienAssignNom);
+            } else {
+                tvTechnicienAssign.setText("Aucun technicien assigné");
+            }
+        }
     }
 
     private void setupListeners() {
-        // QR Code
+        // QR Code - Toujours visible
         btnQrCode.setOnClickListener(v -> {
             generateQrCode();
         });
 
-        // Interventions
+        // Interventions - Toujours visible
         btnInterventions.setOnClickListener(v -> {
             openInterventions();
         });
 
-        // Modifier
-        btnEdit.setOnClickListener(v -> {
-            editAvion();
-        });
+        // Modifier - Seulement si bouton existe ET pas technicien
+        if (btnEdit != null && !isTechnicienView) {
+            btnEdit.setOnClickListener(v -> {
+                editAvion();
+            });
+        }
 
-        // Supprimer
-        btnDelete.setOnClickListener(v -> {
-            deleteAvion();
-        });
+        // Supprimer - Seulement si bouton existe ET pas technicien
+        if (btnDelete != null && !isTechnicienView) {
+            btnDelete.setOnClickListener(v -> {
+                deleteAvion();
+            });
+        }
+
+        // Changer technicien - Seulement si bouton existe ET pas technicien
+        if (btnChangeTechnicien != null && !isTechnicienView) {
+            btnChangeTechnicien.setOnClickListener(v -> {
+                changeTechnicien();
+            });
+        }
     }
+
+    private void changeTechnicien() {
+        // Ouvrir l'activité d'assignation
+        Intent intent = new Intent(this, AssignAvionTechnicienActivity.class);
+        intent.putExtra("avion_id", avionId);
+        if (avion != null && avion.technicienAssignNom != null) {
+            intent.putExtra("current_technicien", avion.technicienAssignNom);
+        }
+        startActivityForResult(intent, 100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            // Recharger les détails après assignation
+            loadAvionDetails();
+            Toast.makeText(this, "Technicien assigné avec succès", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void openInterventions() {
-        // Ouvrir la liste des interventions pour cet avion
         if (avion != null) {
             Intent intent = new Intent(this, AvionInterventionsActivity.class);
             intent.putExtra("avion_id", avionId);
@@ -185,7 +272,6 @@ public class AvionDetailsActivity extends AppCompatActivity {
     }
 
     private void generateQrCode() {
-        // Ouvrir l'activité QR Code
         if (avion != null) {
             Intent intent = new Intent(this, QrCodeActivity.class);
             intent.putExtra("avion_id", avionId);
@@ -196,10 +282,7 @@ public class AvionDetailsActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void editAvion() {
-        // Ouvrir l'activité de modification
         Intent intent = new Intent(this, EditAvionActivity.class);
         intent.putExtra("avion_id", avionId);
         startActivity(intent);
@@ -234,7 +317,6 @@ public class AvionDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Recharger les données si on revient de l'édition
         if (avionId != null) {
             loadAvionDetails();
         }

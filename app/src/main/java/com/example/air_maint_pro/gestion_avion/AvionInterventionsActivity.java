@@ -60,15 +60,13 @@ public class AvionInterventionsActivity extends AppCompatActivity {
         // Charger les interventions
         loadInterventions();
 
-        // Configurer les écouteurs
-        setupListeners();
+
     }
 
     private void initViews() {
         tvAvionTitle = findViewById(R.id.tvAvionTitle);
         tvInterventionCount = findViewById(R.id.tvInterventionCount);
         tvNoInterventions = findViewById(R.id.tvNoInterventions);
-        btnAddIntervention = findViewById(R.id.btnAddIntervention);
         rvInterventions = findViewById(R.id.rvInterventions);
 
         tvAvionTitle.setText("Interventions - " + matricule);
@@ -85,11 +83,7 @@ public class AvionInterventionsActivity extends AppCompatActivity {
         rvInterventions.setAdapter(adapter);
     }
 
-    private void setupListeners() {
-        btnAddIntervention.setOnClickListener(v -> {
-            addNewIntervention();
-        });
-    }
+
 
     private void loadInterventions() {
         db.collection("interventions")

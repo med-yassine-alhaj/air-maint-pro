@@ -16,6 +16,8 @@ public class Avion {
     public Date createdAt;
     public String createdBy;
     public int interventionCount;
+    public String technicienAssignId;
+    public String technicienAssignNom;
 
     // Constructeur vide nécessaire pour Firestore
     public Avion() {}
@@ -38,6 +40,11 @@ public class Avion {
     }
 
     // Getters
+    public String getTechnicienAssignId() { return technicienAssignId; }
+    public void setTechnicienAssignId(String technicienAssignId) { this.technicienAssignId = technicienAssignId; }
+
+    public String getTechnicienAssignNom() { return technicienAssignNom; }
+    public void setTechnicienAssignNom(String technicienAssignNom) { this.technicienAssignNom = technicienAssignNom; }
     public int getInterventionCount() {
         return interventionCount;
     }

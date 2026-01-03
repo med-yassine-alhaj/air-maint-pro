@@ -311,6 +311,82 @@
                     android:textColor="#7F8C8D" />
 
             </LinearLayout>
+            <!-- Technicien assigné -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="👨‍🔧 Technicien Assigné"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#2C3E50"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_person"
+                            app:tint="#2196F3"
+                            android:layout_marginEnd="12dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Technicien responsable"
+                                android:textSize="12sp"
+                                android:textColor="#7F8C8D" />
+
+                            <TextView
+                                android:id="@+id/tvTechnicienAssign"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Aucun technicien assigné"
+                                android:textSize="16sp"
+                                android:textColor="#2C3E50"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <!-- Bouton pour assigner/changer technicien -->
+                        <Button
+                            android:id="@+id/btnChangeTechnicien"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Modifier"
+                            android:textSize="12sp"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"
+                            android:backgroundTint="#9C27B0" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
 

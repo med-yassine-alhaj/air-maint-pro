@@ -38,17 +38,7 @@
 
     </LinearLayout>
 
-    <!-- Bouton Ajouter Intervention (visible seulement pour superviseur) -->
-    <Button
-        android:id="@+id/btnAddIntervention"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="➕ Nouvelle Intervention"
-        android:textSize="16sp"
-        android:backgroundTint="#2ECC71"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:layout_margin="16dp" />
+
 
     <!-- Liste des interventions -->
     <androidx.recyclerview.widget.RecyclerView
