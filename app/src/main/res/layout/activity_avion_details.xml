@@ -152,7 +152,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_company"
-                        android:tint="#2196F3"
+                        app:tint="#2196F3"
                         android:layout_marginEnd="12dp" />
 
                     <LinearLayout
@@ -192,7 +192,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_clock"
-                        android:tint="#2196F3"
+                        app:tint="#2196F3"
                         android:layout_marginEnd="12dp" />
 
                     <LinearLayout
