@@ -12,6 +12,7 @@ import com.example.air_maint_pro.R;
 import com.example.air_maint_pro.TechnicienListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
 public class StatistiqueFragment extends Fragment {
 
     @Override
@@ -45,8 +46,10 @@ public class StatistiqueFragment extends Fragment {
 
             } else if (itemId == R.id.nav_statistics) {
 
-                // Show statistics graphs
-                Toast.makeText(getContext(), "Statistiques", Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ChartFragment())
+                                .addToBackStack(null)
+                                        .commit();
                 return true;
 
             } else if (itemId == R.id.nav_home) {

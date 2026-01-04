@@ -183,8 +183,12 @@ public class RapportsFragment extends Fragment {
                 return true;
 
             } else if (itemId == R.id.nav_statistics) {
-                Toast.makeText(getContext(), "Statistiques", Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ChartFragment())
+                        .addToBackStack(null)
+                        .commit();
                 return true;
+
 
             } else if (itemId == R.id.nav_home) {
                 requireActivity().getSupportFragmentManager().beginTransaction()
