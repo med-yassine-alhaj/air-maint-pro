@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvRapportTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rapport mensuel - Octobre 2025"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Date and Size -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:id="@+id/tvRapportDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="01/11/2025"
+                android:textSize="14sp"
+                android:textColor="#666"/>
+
+            <TextView
+                android:id="@+id/tvRapportSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="· 2.4 MB"
+                android:textSize="14sp"
+                android:textColor="#666"/>
+        </LinearLayout>
+
+        <!-- Type and Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvRapportType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mensuel"
+                android:textSize="12sp"
+                android:textColor="#26A69A"
+                android:background="@drawable/badge_background"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/tvRapportStatut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complété"
+                android:textSize="12sp"
+                android:textColor="#FF9800"
+                android:background="@drawable/badge_background"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

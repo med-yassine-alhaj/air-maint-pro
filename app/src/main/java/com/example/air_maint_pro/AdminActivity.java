@@ -4,18 +4,22 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.air_maint_pro.intervention_management.InterventionsFragment;
+import com.example.air_maint_pro.Rapport_management.StatistiqueFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminActivity extends AppCompatActivity {
 
+    // DECLARE FIELDS HERE (at class level, not inside methods)
     private FirebaseAuth auth;
+    private BottomNavigationView bottomNavigation; // <-- THIS IS CORRECT PLACE
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -26,14 +30,16 @@ public class AdminActivity extends AppCompatActivity {
         // Firebase
         auth = FirebaseAuth.getInstance();
 
+        // REMOVE THIS LINE: BottomNavigationView bottomNavigation; (WRONG - local variable)
+
         // Vérification connexion
         if (auth.getCurrentUser() == null) {
             redirectToLogin();
             return;
         }
 
-        // Setup bottom navigation
-        BottomNavigationView bottomNavigation = findViewById(R.id.bottomNavigation);
+        // Setup bottom navigation - INITIALIZE the field
+        bottomNavigation = findViewById(R.id.bottomNavigation); // <-- Initialize the field
         bottomNavigation.setOnItemSelectedListener(this::onNavigationItemSelected);
 
         // Load default fragment (home)
@@ -48,10 +54,16 @@ public class AdminActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
             fragment = new TechnicienListFragment();
+            showMainBottomNav();
         } else if (itemId == R.id.nav_interventions) {
             fragment = new InterventionsFragment();
+            showMainBottomNav();
         } else if (itemId == R.id.nav_users) {
             fragment = new TechnicienListFragment(); // For now, same as home
+            showMainBottomNav();
+        } else if (itemId == R.id.nav_rapport_stat) {
+            fragment = new StatistiqueFragment();
+            hideMainBottomNav();
         } else if (itemId == R.id.nav_settings) {
             // Settings fragment can be added later
             return false;
@@ -69,6 +81,18 @@ public class AdminActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    public void showMainBottomNav() {
+        if (bottomNavigation != null) {
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideMainBottomNav() {
+        if (bottomNavigation != null) {
+            bottomNavigation.setVisibility(View.GONE);
+        }
     }
 
     private void redirectToLogin() {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Tableau de bord (Dashboard) -->
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_stat_dashboard"
+        android:title="Tableau de bord" />
+
+    <!-- Rapports (Reports) -->
+    <item
+        android:id="@+id/nav_reports"
+        android:icon="@drawable/ic_stat_rappots"
+        android:title="Rapports" />
+
+    <!-- Statistiques (Statistics) -->
+    <item
+        android:id="@+id/nav_statistics"
+        android:icon="@drawable/ic_statistics"
+        android:title="Statistiques" />
+
+    <!-- Accueil (Home) -->
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Accueil" />
+
+</menu>
