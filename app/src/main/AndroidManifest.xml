@@ -41,6 +41,11 @@
             android:exported="false"
             android:theme="@style/Theme.AirMaintPro"
             android:label="Créer Technicien" />
+        <activity
+            android:name=".gestion_vols.AddEditVolActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AirMaintPro"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!-- AJOUTER CETTE ACTIVITÉ -->
         <activity

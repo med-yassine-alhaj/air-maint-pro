@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fillViewport="true"
+    android:background="@color/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Titre -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nouveau Vol"
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Numéro de vol -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Numéro de vol *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="Ex: AF123"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNumeroVol"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textCapCharacters"
+                android:maxLength="10"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Ville de départ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ville de départ *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="Ex: Paris"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etVilleDepart"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textCapWords"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Ville d'arrivée -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ville d'arrivée *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="Ex: Londres"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etVilleArrivee"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textCapWords"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Date de départ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date de départ *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/buttonSelectDateDepart"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="12dp"
+            android:text="Sélectionner la date et heure"
+            android:backgroundTint="@color/main"
+            android:textColor="@color/main_text"
+            android:textSize="16sp"
+            android:paddingVertical="12dp"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/textViewSelectedDateDepart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Non sélectionnée"
+            android:textSize="14sp"
+            android:textColor="@color/muted_text"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:background="@color/input_bg"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp" />
+
+        <!-- Date d'arrivée -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date d'arrivée *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/buttonSelectDateArrivee"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="12dp"
+            android:text="Sélectionner la date et heure"
+            android:backgroundTint="@color/main"
+            android:textColor="@color/main_text"
+            android:textSize="16sp"
+            android:paddingVertical="12dp"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/textViewSelectedDateArrivee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Non sélectionnée"
+            android:textSize="14sp"
+            android:textColor="@color/muted_text"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:background="@color/input_bg"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp" />
+
+        <!-- Avion - Version améliorée de AutoCompleteTextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avion *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_background"
+            android:padding="1dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteAvion"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Cliquez pour sélectionner un avion"
+                android:inputType="none"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="40dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/text"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:completionHint="Liste des avions disponibles"
+                android:completionThreshold="1"
+                android:dropDownWidth="match_parent"
+                android:dropDownHeight="wrap_content"
+                android:dropDownVerticalOffset="4dp"
+                android:dropDownHorizontalOffset="0dp"
+                android:dropDownSelector="@color/white"
+                android:imeOptions="actionDone" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_arrow_drop_down"
+                android:contentDescription="Ouvrir la liste"
+                android:tint="@color/muted_text" />
+
+        </LinearLayout>
+
+        <!-- Message d'information pour les avions -->
+        <TextView
+            android:id="@+id/tvAvionInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            android:textColor="@color/muted_text"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- Statut - Version améliorée de AutoCompleteTextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Statut"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_background"
+            android:padding="1dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteStatut"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Choisir un statut"
+                android:inputType="none"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="40dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/text"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:completionHint="Liste des statuts"
+                android:completionThreshold="1"
+                android:dropDownWidth="match_parent"
+                android:dropDownHeight="wrap_content"
+                android:dropDownVerticalOffset="4dp"
+                android:dropDownHorizontalOffset="0dp"
+                android:dropDownSelector="@color/white"
+                android:imeOptions="actionDone" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_arrow_drop_down"
+                android:contentDescription="Ouvrir la liste"
+                android:tint="@color/muted_text" />
+
+        </LinearLayout>
+
+        <!-- Observations -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Observations"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Notes complémentaires..."
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etObservations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:minLines="3"
+                android:maxLines="5"
+                android:gravity="top|start"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Champ obligatoires -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="* Champs obligatoires"
+            android:textSize="12sp"
+            android:textColor="@color/muted_text"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Annuler"
+                android:backgroundTint="@color/gray"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/border"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Enregistrer"
+                android:backgroundTint="@color/main"
+                android:textColor="@color/main_text"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

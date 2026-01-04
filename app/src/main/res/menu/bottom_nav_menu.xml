@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_home"
-        android:title="Accueil"
-        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/nav_avions"
         android:icon="@drawable/ic_airplane"
-        android:title="Avions" />
+        android:title="Avions"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/nav_vols"
+        android:icon="@drawable/ic_flight"
+        android:title="Vols"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/nav_interventions"
         android:icon="@drawable/ic_wrench"
-        android:title="interventions"
+        android:title="Interventions"
         app:showAsAction="ifRoom" />
 
     <item

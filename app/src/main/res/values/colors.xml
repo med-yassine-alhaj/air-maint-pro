@@ -14,6 +14,7 @@
     <color name="material_on_surface_stroke">#6E6E6E</color>
 
 
+
     <!-- Color palette:                              -->
 
     <!-- ============================================= -->
@@ -120,5 +121,12 @@
     <color name="dark_card">#1E1E1E</color>
     <color name="dark_text_primary">#FFFFFF</color>
     <color name="dark_text_secondary">#B0B0B0</color>
+    <color name="blue_primary">#1565C0</color>
+    <color name="blue_dark">#0D47A1</color>
+    <color name="black_primary">#111111</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_medium">#BDBDBD</color>
+
+
 
 </resources>

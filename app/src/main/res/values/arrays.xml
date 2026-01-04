@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="statuts_vol">
+        <item>Programmé</item>
+        <item>En cours</item>
+        <item>Terminé</item>
+        <item>Annulé</item>
+    </string-array>
+</resources>
