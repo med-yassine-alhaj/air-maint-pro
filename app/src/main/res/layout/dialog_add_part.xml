@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/card_bg">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Part"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter the information for the part used"
+        android:textSize="14sp"
+        android:textColor="@color/muted_text"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Part Name -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Part Name *"
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPartName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint=""
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Description -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Description"
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPartDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint=""
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Quantity -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Quantity *"
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Weight -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Weight (kg)"
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="0.0"
+            android:hint="0.0"
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Unit Price -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Unit Price ($)"
+        app:hintTextColor="@color/muted_text"
+        app:boxStrokeColor="@color/border"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxBackgroundColor="@color/input_bg">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextUnitPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="0.00"
+            android:hint="0.00"
+            android:textColor="@color/card_text"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="Cancel"
+            android:textSize="16sp"
+            android:backgroundTint="@android:color/transparent"
+            android:textColor="@color/text"
+            android:layout_marginEnd="8dp"
+            android:minWidth="100dp" />
+
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="+ Add"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/main"
+            android:textColor="@color/main_text"
+            android:drawableStart="@android:drawable/ic_input_add"
+            android:drawablePadding="8dp"
+            android:minWidth="120dp" />
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
