@@ -72,5 +72,7 @@ dependencies {
     // Pour les dates
     implementation("com.google.code.gson:gson:2.10.1")
 
+    // Pour PDF generation
+    implementation("com.itextpdf:itext7-core:7.2.5")
 
 }

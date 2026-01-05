@@ -25,6 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +50,8 @@ public class InterventionsFragment extends Fragment {
     private LinearLayout tabActive;
     private LinearLayout tabHistorique;
     private TextView badgeActiveCount;
+    private TextInputEditText editTextSearch;
+    private String searchQuery = "";
     private boolean isActiveTabSelected = true;
 
     // For aircraft and technician data
@@ -54,6 +59,7 @@ public class InterventionsFragment extends Fragment {
     private List<Technicien> technicianList = new ArrayList<>();
     private Map<String, String> avionMap = new HashMap<>(); // display string -> id
     private Map<String, String> technicianMap = new HashMap<>(); // display string -> id
+    private Map<String, String> interventionAvionMatriculeMap = new HashMap<>(); // intervention id -> matricule
 
     // Date formatter
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -82,16 +88,26 @@ public class InterventionsFragment extends Fragment {
         tabActive = view.findViewById(R.id.tabActive);
         tabHistorique = view.findViewById(R.id.tabHistorique);
         badgeActiveCount = view.findViewById(R.id.badgeActiveCount);
+        editTextSearch = view.findViewById(R.id.editTextSearch);
 
         interventionList = new ArrayList<>();
         allInterventionsList = new ArrayList<>();
         adapter = new InterventionAdapter(interventionList);
+        adapter.setOnItemClickListener(intervention -> {
+            showInterventionDetail(intervention);
+        });
+        adapter.setOnPDFExportClickListener(intervention -> {
+            exportInterventionToPDF(intervention);
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         // Setup tab click listeners
         tabActive.setOnClickListener(v -> switchToActiveTab());
         tabHistorique.setOnClickListener(v -> switchToHistoriqueTab());
+
+        // Setup search functionality
+        setupSearchBar();
 
         // Initialize adapters
         avionAdapter = new ArrayAdapter<>(
@@ -125,10 +141,14 @@ public class InterventionsFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         allInterventionsList.clear();
+                        interventionAvionMatriculeMap.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Intervention intervention = document.toObject(Intervention.class);
                             intervention.setId(document.getId());
                             allInterventionsList.add(intervention);
+                            
+                            // Load aircraft matricule for search
+                            loadAircraftMatriculeForIntervention(intervention);
                         }
                         filterInterventions();
                         updateActiveCount();
@@ -140,20 +160,58 @@ public class InterventionsFragment extends Fragment {
                 });
     }
 
+    private void loadAircraftMatriculeForIntervention(Intervention intervention) {
+        String avionId = intervention.getAvionId();
+        if (avionId == null || avionId.isEmpty()) {
+            return;
+        }
+
+        // Check if already in avionList
+        for (Avion avion : avionList) {
+            if (avion.getId().equals(avionId)) {
+                interventionAvionMatriculeMap.put(intervention.getId(), avion.getMatricule());
+                return;
+            }
+        }
+
+        // Load from Firestore if not in cache
+        db.collection("Avions").document(avionId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Avion avion = documentSnapshot.toObject(Avion.class);
+                        if (avion != null) {
+                            interventionAvionMatriculeMap.put(intervention.getId(), avion.getMatricule());
+                            // Re-filter if search is active
+                            if (!searchQuery.isEmpty()) {
+                                filterInterventions();
+                            }
+                        }
+                    }
+                });
+    }
+
     private void filterInterventions() {
         interventionList.clear();
         for (Intervention intervention : allInterventionsList) {
             String statut = intervention.getStatut();
+            boolean matchesStatus = false;
+            
             if (isActiveTabSelected) {
                 // Active: show everything except completed
-                if (!"Terminée".equals(statut) && !"Clôturée".equals(statut)) {
-                    interventionList.add(intervention);
-                }
+                matchesStatus = !"Terminée".equals(statut) && !"Clôturée".equals(statut);
             } else {
                 // Historique: show only completed
-                if ("Terminée".equals(statut) || "Clôturée".equals(statut)) {
+                matchesStatus = "Terminée".equals(statut) || "Clôturée".equals(statut);
+            }
+
+            // Apply search filter if query exists
+            if (matchesStatus && !searchQuery.isEmpty()) {
+                if (matchesSearchQuery(intervention)) {
                     interventionList.add(intervention);
                 }
+            } else if (matchesStatus) {
+                interventionList.add(intervention);
             }
         }
         adapter.notifyDataSetChanged();
@@ -165,6 +223,39 @@ public class InterventionsFragment extends Fragment {
             emptyStateText.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private boolean matchesSearchQuery(Intervention intervention) {
+        if (searchQuery == null || searchQuery.isEmpty()) {
+            return true;
+        }
+
+        String query = searchQuery.toLowerCase().trim();
+        String matricule = interventionAvionMatriculeMap.get(intervention.getId());
+        
+        if (matricule != null && matricule.toLowerCase().contains(query)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private void setupSearchBar() {
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchQuery = s.toString();
+                filterInterventions();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     private void updateActiveCount() {
@@ -549,5 +640,26 @@ public class InterventionsFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    private void exportInterventionToPDF(Intervention intervention) {
+        PDFReportGenerator pdfGenerator = new PDFReportGenerator(requireContext());
+        pdfGenerator.generateInterventionReport(intervention, new PDFReportGenerator.PDFGenerationCallback() {
+            @Override
+            public void onSuccess(String filePath) {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), 
+                            "PDF report saved to Downloads: " + filePath, 
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Error generating PDF: " + error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
