@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "690960117518",
+    "project_id": "techniciens-97f62",
+    "storage_bucket": "techniciens-97f62.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690960117518:android:7f19f9f2df26989289f15f",
+        "android_client_info": {
+          "package_name": "com.example.techniciens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARJPplSP1kx24U0BJTyuwBGEevaZUNxZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

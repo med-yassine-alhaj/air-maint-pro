@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Techniciens</string>
+    <string name="title_dashboard">Gestion des techniciens</string>
+    <string name="section_technicians">Profil technicien</string>
+    <string name="section_planning">Planning et affectations</string>
+    <string name="section_stats">Statistiques personnelles</string>
+    <string name="add_technician">Ajouter un technicien</string>
+    <string name="add_assignment">Planifier / affecter</string>
+    <string name="empty_state">Aucun élément pour le moment.</string>
+    <string name="search_placeholder">Rechercher par nom ou spécialité</string>
+    <string name="filter_label">Disponibilité :</string>
+    <string name="edit_technician">Modifier</string>
+    <string name="delete_technician">Supprimer</string>
+    <string name="confirm_delete_message">Supprimer ce technicien ? Les affectations liées seront également supprimées.</string>
+    <string name="share_planning_qr">Partager le planning (QR)</string>
+    <string name="qr_dialog_title">Scanner ce QR pour le planning</string>
+    <string name="qr_dialog_close">Fermer</string>
+    <string name="update_technician">Mettre à jour</string>
+    <string name="available_label">Disponible</string>
+    <string name="busy_label">Occupé</string>
+    <string name="all_label">Tous</string>
+    <string-array name="status_entries">
+        <item>planned</item>
+        <item>done</item>
+        <item>canceled</item>
+    </string-array>
+    <string-array name="availability_filters">
+        <item>@string/all_label</item>
+        <item>@string/available_label</item>
+        <item>@string/busy_label</item>
+    </string-array>
+</resources>
