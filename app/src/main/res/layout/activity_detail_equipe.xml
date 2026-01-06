@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fillViewport="true"
+    android:background="@color/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- En-tête -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvNomEquipe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark" />
+
+            <TextView
+                android:id="@+id/tvStatut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:background="@drawable/bg_status_available" />
+
+        </LinearLayout>
+
+        <!-- Informations de base -->
+        <TextView
+            android:id="@+id/tvCodeEquipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvDateCreation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/muted_text"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:padding="12dp"
+            android:background="@drawable/rounded_border_light"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Informations sur le vol -->
+        <LinearLayout
+            android:id="@+id/layoutVolInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_border_alert"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🎯 VOL ASSIGNÉ"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvVolAssigné"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary" />
+
+        </LinearLayout>
+
+        <!-- Statistiques -->
+        <TextView
+            android:id="@+id/tvMembresCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvComposition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvRoleStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Liste des membres -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="👥 Membres de l'équipe:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMembres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:minHeight="200dp" />
+
+        <!-- Boutons d'action -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnAssignerVol"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Assigner un vol"
+                android:backgroundTint="@color/main"
+                android:textColor="@color/main_text"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button" />
+
+            <Button
+                android:id="@+id/btnLibererVol"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Libérer du vol"
+                android:backgroundTint="@color/orange"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.Button" />
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="Modifier"
+                android:backgroundTint="@color/blue_dark"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button" />
+
+        </LinearLayout>
+
+        <!-- Bouton retour -->
+        <Button
+            android:id="@+id/btnRetour"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Retour"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/text"
+            android:textSize="16sp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/border"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
+</ScrollView>

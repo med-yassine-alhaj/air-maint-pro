@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/bg">
+
+    <!-- Titre -->
+    <TextView
+        android:id="@+id/tvEquipeInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_dark"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Message si aucun vol -->
+    <TextView
+        android:id="@+id/tvAucunVol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aucun vol disponible pour assignation.\n\nLes vols doivent:\n• Être à venir (date future)\n• Être planifiés ou retardés\n• Ne pas avoir d'équipe assignée"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone" />
+
+    <!-- Liste des vols -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewVols"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="4dp" />
+
+    <!-- Bouton retour -->
+    <Button
+        android:id="@+id/btnRetour"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="Retour"
+        android:backgroundTint="@color/gray"
+        android:textColor="@color/text"
+        android:textSize="16sp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:strokeColor="@color/border"
+        app:strokeWidth="1dp" />
+
+</LinearLayout>

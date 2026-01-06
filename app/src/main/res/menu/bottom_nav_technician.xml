@@ -12,11 +12,7 @@
         android:icon="@drawable/ic_airplane"
         android:title="Avions"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/nav_vols"
-        android:icon="@drawable/ic_flight"
-        android:title="Vols"
-        app:showAsAction="ifRoom" />
+
 
     <item
         android:id="@+id/nav_interventions"
