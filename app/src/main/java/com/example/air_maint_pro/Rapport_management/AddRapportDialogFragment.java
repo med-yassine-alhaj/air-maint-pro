@@ -5,16 +5,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import com.example.air_maint_pro.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,12 +33,16 @@ public class AddRapportDialogFragment extends DialogFragment {
         void onRapportAdded();
     }
 
-    private TextInputEditText etTitle, etContenu, etType, etStatut;
-    private TextInputEditText etDateGeneration, etPerDebut, etPerFin;
-    private TextInputLayout tilDateGeneration, tilPerDebut, tilPerFin;
+    private TextInputEditText etTitle, etContenu, etPerDebut, etPerFin;
+    private TextInputLayout tilPerDebut, tilPerFin;
+    private AutoCompleteTextView actvType, actvStatus;
     private MaterialButton btnSubmit;
     private FirebaseFirestore db;
     private OnRapportAddedListener listener;
+
+    // Types et statuts disponibles
+    private static final String[] RAPPORT_TYPES = {"Maintenance", "Vol", "Technicien", "Global"};
+    private static final String[] RAPPORT_STATUS = {"mensuel", "trimestriel", "hebdomadaire"};
 
     // Static method to create dialog with listener
     public static AddRapportDialogFragment newInstance(OnRapportAddedListener listener) {
@@ -58,6 +67,7 @@ public class AddRapportDialogFragment extends DialogFragment {
 
         // Initialize views
         initializeViews(view);
+        setupDropdowns(view);
         setupDatePickers(view);
         setupSubmitButton(view);
 
@@ -67,22 +77,45 @@ public class AddRapportDialogFragment extends DialogFragment {
     private void initializeViews(View view) {
         etTitle = view.findViewById(R.id.etTitle);
         etContenu = view.findViewById(R.id.etContenu);
-        etType = view.findViewById(R.id.etType);
-        etStatut = view.findViewById(R.id.etStatut);
-        etDateGeneration = view.findViewById(R.id.etDateGeneration);
+        actvType = view.findViewById(R.id.actvType);
+        actvStatus = view.findViewById(R.id.actvStatus);
         etPerDebut = view.findViewById(R.id.etPerDebut);
         etPerFin = view.findViewById(R.id.etPerFin);
         btnSubmit = view.findViewById(R.id.btnSubmit);
 
-        tilDateGeneration = view.findViewById(R.id.tilDateGeneration);
         tilPerDebut = view.findViewById(R.id.tilPerDebut);
         tilPerFin = view.findViewById(R.id.tilPerFin);
     }
 
-    private void setupDatePickers(View view) {
-        // Date Generation
-        etDateGeneration.setOnClickListener(v -> showDatePicker(etDateGeneration));
+    private void setupDropdowns(View view) {
+        // Vérifier que les vues existent
+        if (actvType == null || actvStatus == null) {
+            Toast.makeText(requireContext(), "Erreur d'initialisation", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // Setup Type dropdown avec layout système Android
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                RAPPORT_TYPES
+        );
+        actvType.setAdapter(typeAdapter);
+
+        // Setup Status dropdown avec layout système Android
+        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                RAPPORT_STATUS
+        );
+        actvStatus.setAdapter(statusAdapter);
+
+        // Set default values
+        actvType.setText(RAPPORT_TYPES[0], false); // "Maintenance" par défaut
+        actvStatus.setText(RAPPORT_STATUS[0], false); // "mensuel" par défaut
+    }
+
+    private void setupDatePickers(View view) {
         // Period Start
         etPerDebut.setOnClickListener(v -> showDatePicker(etPerDebut));
 
@@ -90,9 +123,6 @@ public class AddRapportDialogFragment extends DialogFragment {
         etPerFin.setOnClickListener(v -> showDatePicker(etPerFin));
 
         // Also set up calendar icon clicks
-        if (tilDateGeneration != null) {
-            tilDateGeneration.setEndIconOnClickListener(v -> showDatePicker(etDateGeneration));
-        }
         if (tilPerDebut != null) {
             tilPerDebut.setEndIconOnClickListener(v -> showDatePicker(etPerDebut));
         }
@@ -127,9 +157,8 @@ public class AddRapportDialogFragment extends DialogFragment {
             // Get data from form
             String title = etTitle.getText().toString().trim();
             String content = etContenu.getText().toString().trim();
-            String type = etType.getText().toString().trim();
-            String status = etStatut.getText().toString().trim();
-            String dateGenStr = etDateGeneration.getText().toString().trim();
+            String type = actvType.getText().toString().trim();
+            String status = actvStatus.getText().toString().trim();
             String periodStartStr = etPerDebut.getText().toString().trim();
             String periodEndStr = etPerFin.getText().toString().trim();
 
@@ -141,27 +170,29 @@ public class AddRapportDialogFragment extends DialogFragment {
             }
 
             if (type.isEmpty()) {
-                type = "Non spécifié";
+                type = "Maintenance"; // Valeur par défaut
             }
 
             if (status.isEmpty()) {
-                status = "Brouillon";
+                status = "mensuel"; // Valeur par défaut
             }
 
-            // Convert date strings to Timestamps
-            Timestamp dateGeneration = convertStringToTimestamp(dateGenStr);
+            // Date de génération = maintenant
+            Timestamp dateGeneration = Timestamp.now();
+
+            // Convert period strings to Timestamps
             Timestamp perDebut = convertStringToTimestamp(periodStartStr);
             Timestamp perFin = convertStringToTimestamp(periodEndStr);
 
-            // Create Rapport object
+            // Create Rapport object - CORRECTION: utilise les bons noms de paramètres
             Rapport rapport = new Rapport(
-                    title,
-                    content,
-                    type,
-                    status,
-                    dateGeneration,
-                    perDebut,
-                    perFin
+                    title,           // title
+                    content,         // contenu
+                    type,            // type
+                    status,          // statut
+                    dateGeneration,  // date_generation
+                    perDebut,        // per_debut
+                    perFin           // per_fin
             );
 
             // Save to Firebase
@@ -172,7 +203,7 @@ public class AddRapportDialogFragment extends DialogFragment {
     private void setLoadingState(boolean isLoading) {
         if (btnSubmit != null) {
             btnSubmit.setEnabled(!isLoading);
-            btnSubmit.setText(isLoading ? "Enregistrement..." : "Enregistrer");
+            btnSubmit.setText(isLoading ? "Enregistrement..." : "Générer le rapport");
         }
     }
 
@@ -195,19 +226,21 @@ public class AddRapportDialogFragment extends DialogFragment {
         db.collection("rapport")
                 .add(rapport)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(requireContext(), "Rapport ajouté avec succès!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "✅ Rapport ajouté avec succès!", Toast.LENGTH_SHORT).show();
 
-                    // Notify listener FIRST
-                    if (listener != null) {
-                        listener.onRapportAdded();
-                    }
-
-                    // THEN dismiss dialog
+                    // D'abord dismiss le dialog
                     dismiss();
+
+                    // Ensuite notifier avec un petit délai
+                    if (listener != null) {
+                        new android.os.Handler().postDelayed(() -> {
+                            listener.onRapportAdded();
+                        }, 300); // 300ms de délai
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(requireContext(), "Erreur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    setLoadingState(false); // Re-enable button on error
+                    Toast.makeText(requireContext(), "❌ Erreur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    setLoadingState(false);
                 });
     }
 

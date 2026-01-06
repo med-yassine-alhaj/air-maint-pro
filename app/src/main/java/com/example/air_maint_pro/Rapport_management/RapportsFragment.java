@@ -17,10 +17,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class RapportsFragment extends Fragment {
+public class RapportsFragment extends Fragment implements RapportAdapter.OnRapportActionListener, RapportAdapter.OnRapportClickListener {
 
     private RecyclerView rvReports;
     private RapportAdapter adapter;
@@ -42,7 +44,8 @@ public class RapportsFragment extends Fragment {
         rvReports = view.findViewById(R.id.rvReports);
         rvReports.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new RapportAdapter(rapportList, this::showRapportOptions);
+        // ✅ CORRECTION : Passe "this" car le fragment implémente l'interface
+        adapter = new RapportAdapter(rapportList, this, this);
         rvReports.setAdapter(adapter);
 
         // Load rapports
@@ -57,6 +60,18 @@ public class RapportsFragment extends Fragment {
         return view;
     }
 
+    // ✅ CORRECTION : Implémente la méthode de l'interface
+    @Override
+    public void onLongClick(Rapport rapport) {
+        showRapportOptions(rapport);
+    }
+
+    // ✅ Implement click listener for opening detail fragment
+    @Override
+    public void onRapportClick(Rapport rapport) {
+        openRapportDetail(rapport);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -66,20 +81,25 @@ public class RapportsFragment extends Fragment {
 
     public void loadRapports() {
         db.collection("rapport")
+                .orderBy("date_generation", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(query -> {
                     rapportList.clear();
                     for (QueryDocumentSnapshot d : query) {
-                        Rapport r = d.toObject(Rapport.class);
-                        if (r != null) {
-                            r.setId(d.getId());
-                            rapportList.add(r);
+                        try {
+                            Rapport r = d.toObject(Rapport.class);
+                            if (r != null) {
+                                r.setId(d.getId());
+                                rapportList.add(r);
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), "Erreur parsing: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                     adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Erreur de chargement des rapports", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Erreur de chargement: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -91,10 +111,9 @@ public class RapportsFragment extends Fragment {
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            showRapportDetails(r);
+                            openRapportDetail(r); // Changed from showRapportDetails to openRapportDetail
                             break;
                         case 1:
-                            // TODO: Implement edit
                             Toast.makeText(getContext(), "Modifier (à implémenter)", Toast.LENGTH_SHORT).show();
                             break;
                         case 2:
@@ -102,20 +121,43 @@ public class RapportsFragment extends Fragment {
                             break;
                     }
                 })
+                .setNegativeButton("Annuler", null)
                 .show();
     }
 
+    // New method to open detail fragment
+    private void openRapportDetail(Rapport r) {
+        RapportDetailFragment detailFragment = RapportDetailFragment.newInstance(r);
+
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, detailFragment)
+                .addToBackStack("rapport_detail")
+                .commit();
+    }
+
+    // Keep the old method for backward compatibility (not used in new flow)
     private void showRapportDetails(Rapport r) {
-        String details = "Titre: " + r.getTitle() + "\n" +
-                "Contenu: " + (r.getContenu() != null ? r.getContenu() : "Aucun contenu") + "\n" +
-                "Type: " + r.getType() + "\n" +
-                "Statut: " + r.getStatut() + "\n" +
-                "Date génération: " + (r.getDate_generation() != null ?
-                r.getDate_generation().toDate().toString() : "Non spécifiée") + "\n" +
-                "Période début: " + (r.getPer_debut() != null ?
-                r.getPer_debut().toDate().toString() : "Non spécifiée") + "\n" +
-                "Période fin: " + (r.getPer_fin() != null ?
-                r.getPer_fin().toDate().toString() : "Non spécifiée");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRENCH);
+
+        String dateGen = r.getDate_generation() != null ?
+                sdf.format(r.getDate_generation().toDate()) : "Non spécifiée";
+        String perDebut = r.getPer_debut() != null ?
+                sdf.format(r.getPer_debut().toDate()) : "Non spécifiée";
+        String perFin = r.getPer_fin() != null ?
+                sdf.format(r.getPer_fin().toDate()) : "Non spécifiée";
+
+        String details = "Titre: " + r.getTitle() + "\n\n" +
+                "Contenu: " + (r.getContenu() != null ?
+                (r.getContenu().length() > 100 ?
+                        r.getContenu().substring(0, 100) + "..." :
+                        r.getContenu()) :
+                "Aucun contenu") + "\n\n" +
+                "Type: " + r.getType() + "\n\n" +
+                "Statut: " + r.getStatut() + "\n\n" +
+                "Date génération: " + dateGen + "\n\n" +
+                "Période début: " + perDebut + "\n\n" +
+                "Période fin: " + perFin;
 
         new AlertDialog.Builder(requireContext())
                 .setTitle("Détails du Rapport")
@@ -148,13 +190,8 @@ public class RapportsFragment extends Fragment {
     private void setupFloatingActionButton(View view) {
         FloatingActionButton fabAddRapport = view.findViewById(R.id.fabAddRapport);
         fabAddRapport.setOnClickListener(v -> {
-            // Create dialog with callback
-            AddRapportDialogFragment dialog = AddRapportDialogFragment.newInstance(new AddRapportDialogFragment.OnRapportAddedListener() {
-                @Override
-                public void onRapportAdded() {
-                    // Refresh the list when rapport is added
-                    loadRapports();
-                }
+            AddRapportDialogFragment dialog = AddRapportDialogFragment.newInstance(() -> {
+                loadRapports();
             });
             dialog.show(getParentFragmentManager(), "AddRapportDialog");
         });
@@ -170,13 +207,7 @@ public class RapportsFragment extends Fragment {
             if (itemId == R.id.nav_dashboard) {
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new StatistiqueFragment())
-                        .addToBackStack(null)
                         .commit();
-
-                if (requireActivity() instanceof com.example.air_maint_pro.AdminActivity) {
-                    ((com.example.air_maint_pro.AdminActivity) requireActivity())
-                            .hideMainBottomNav();
-                }
                 return true;
 
             } else if (itemId == R.id.nav_reports) {
@@ -185,10 +216,8 @@ public class RapportsFragment extends Fragment {
             } else if (itemId == R.id.nav_statistics) {
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new ChartFragment())
-                        .addToBackStack(null)
                         .commit();
                 return true;
-
 
             } else if (itemId == R.id.nav_home) {
                 requireActivity().getSupportFragmentManager().beginTransaction()

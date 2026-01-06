@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <!-- App Bar with Back Button and Export -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingHorizontal="8dp">
+
+            <!-- Back Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="41dp"
+                android:layout_height="37dp"
+                android:background="@color/main"
+                android:contentDescription="Retour"
+                android:textColor="#000000"
+                app:icon="@drawable/ic_stats_arrow_back"
+                app:iconPadding="0dp"
+                app:iconSize="24dp"
+                app:iconTint="#000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Page Title -->
+
+            <!-- Export Button -->
+            <TextView
+                android:id="@+id/tvPageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:text="Détails du Rapport"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnBack"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content Scrollable Area -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Main Content Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Header Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Icon with colored background -->
+                        <LinearLayout
+                            android:id="@+id/iconBackground"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/status_badge_background"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_stat_rappots" />
+
+                        </LinearLayout>
+
+                        <!-- Title and Basic Info -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvDetailTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="Rapport mensuel - Octobre 2025"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvDetailDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="01/11/2025 14:30"
+                                android:textColor="#666666"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Type and Status Row -->
+
+                    <!-- Divider -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Type Badge -->
+                        <TextView
+                            android:id="@+id/tvDetailType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/status_badge_background"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="8dp"
+                            android:text="Maintenance"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <!-- Status Badge -->
+                        <TextView
+                            android:id="@+id/tvDetailStatut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/status_badge_background"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="8dp"
+                            android:text="Terminé"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExport"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="144dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="28dp"
+                        android:text="Exporter"
+                        android:textSize="14sp"
+                        app:icon="@drawable/ic_stat_export"
+                        app:iconGravity="start"
+                        app:iconPadding="4dp"
+                        app:iconSize="18dp"
+                        app:strokeColor="#26A69A"
+                        app:strokeWidth="1dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="#EEEEEE" />
+
+                    <!-- Period Section -->
+                    <LinearLayout
+                        android:id="@+id/layoutPeriod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_rapport_calendar"
+                             />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:text="Période"
+                                android:textColor="#999999"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvDetailPeriod"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="01/10/2025 - 31/10/2025"
+                                android:textColor="#333333"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Content Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="Description"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <!-- Content Text -->
+                        <TextView
+                            android:id="@+id/tvDetailContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FAFAFA"
+                            android:lineSpacingExtra="6dp"
+                            android:padding="12dp"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                            android:textAlignment="viewStart"
+                            android:textColor="#424242"
+                            android:textSize="15sp"
+                            android:visibility="visible" />
+
+                        <!-- No Content Message -->
+                        <TextView
+                            android:id="@+id/tvNoContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:background="#FAFAFA"
+                            android:gravity="center"
+                            android:text="Aucun contenu disponible pour ce rapport."
+                            android:textColor="#9E9E9E"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <!-- Additional Info Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="#F9F9F9"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="Informations supplémentaires"
+                            android:textColor="#666666"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <!-- Created By -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Créé par"
+                                android:textColor="#888888"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvDetailCreatedBy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Administrateur"
+                                android:textColor="#333333"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <!-- Rapport ID -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="ID du rapport"
+                                android:textColor="#888888"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvDetailId"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="monospace"
+                                android:text="RAPP-2025-001"
+                                android:textColor="#555555"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <!-- Last Modified -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Dernière modification"
+                                android:textColor="#888888"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvDetailLastModified"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="01/11/2025 15:45"
+                                android:textColor="#333333"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Export Options Card (Optional - Can be shown/hidden) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardExportOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Options d'export"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:layout_marginBottom="12dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Exporter en PDF"
+                        android:textSize="14sp"
+                        app:icon="@drawable/ic_stat_export"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Exporter en Excel"
+                        android:textSize="14sp"
+                        app:icon="@drawable/ic_stat_export"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

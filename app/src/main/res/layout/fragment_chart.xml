@@ -53,99 +53,222 @@
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/pieChart"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="320dp" />
 
-                    <!-- Légende des couleurs -->
+                    <!-- Légende des couleurs (7 types) -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_marginTop="16dp"
-                        android:gravity="center_horizontal"
-                        android:paddingHorizontal="16dp">
+                        android:paddingHorizontal="8dp">
 
+                        <!-- Première ligne de légendes -->
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:gravity="center">
+                            android:layout_marginBottom="8dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <!-- Maintenance préventive -->
+                            <LinearLayout
+                                android:id="@+id/legendMaintPreventive"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="●"
-                                android:textColor="#FF6B6B"
-                                android:textSize="20sp"/>
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#FF6B6B"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Mnt Préventive"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
+
+                            <!-- Maintenance corrective -->
+                            <LinearLayout
+                                android:id="@+id/legendMaintCorrective"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text=" Maintenance"
-                                android:textSize="12sp"/>
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#FF8E8E"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Mnt Corrective"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
+
+                            <!-- Dépannage -->
+                            <LinearLayout
+                                android:id="@+id/legendDepannage"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#4ECDC4"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Dépannage"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
+
                         </LinearLayout>
 
+                        <!-- Deuxième ligne de légendes -->
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:gravity="center">
+                            android:layout_marginBottom="8dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <!-- Révision générale -->
+                            <LinearLayout
+                                android:id="@+id/legendRevisionGenerale"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="●"
-                                android:textColor="#4ECDC4"
-                                android:textSize="20sp"/>
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#FFD166"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Révision"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
+
+                            <!-- Contrôle qualité -->
+                            <LinearLayout
+                                android:id="@+id/legendControleQualite"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text=" Réparation"
-                                android:textSize="12sp"/>
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#FFE8A5"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Contrôle Qualité"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
+
+                            <!-- Inspection technique -->
+                            <LinearLayout
+                                android:id="@+id/legendInspectionTech"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#06D6A0"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Inspection"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
+
                         </LinearLayout>
 
+                        <!-- Troisième ligne (juste Vérification système) -->
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal"
                             android:gravity="center">
 
-                            <TextView
+                            <!-- Vérification système -->
+                            <LinearLayout
+                                android:id="@+id/legendVerifSysteme"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="●"
-                                android:textColor="#FFD166"
-                                android:textSize="20sp"/>
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="gone">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" Revision"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="●"
+                                    android:textColor="#4CD9B4"
+                                    android:textSize="16sp"/>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal"
-                            android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" Vérif Système"
+                                    android:textSize="10sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"/>
+                            </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="●"
-                                android:textColor="#06D6A0"
-                                android:textSize="20sp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" Inspection"
-                                android:textSize="12sp"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -170,7 +293,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Interventions par jour"
+                        android:text="Interventions par jour (Cette semaine)"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="16dp"/>
@@ -193,7 +316,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Lun"
+                            android:text="LUN"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>
@@ -202,7 +325,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Mar"
+                            android:text="MAR"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>
@@ -211,7 +334,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Mer"
+                            android:text="MER"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>
@@ -220,7 +343,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Jeu"
+                            android:text="JEU"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>
@@ -229,7 +352,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Ven"
+                            android:text="VEN"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>
@@ -238,7 +361,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Sam"
+                            android:text="SAM"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>
@@ -247,7 +370,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Dim"
+                            android:text="DIM"
                             android:textAlignment="center"
                             android:textSize="12sp"
                             android:textColor="#666666"/>

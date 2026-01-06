@@ -9,22 +9,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.air_maint_pro.R;
 import com.google.firebase.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class RapportAdapter extends RecyclerView.Adapter<RapportAdapter.ViewHolder> {
+
+    public interface OnRapportClickListener {
+        void onRapportClick(Rapport rapport);
+    }
 
     public interface OnRapportActionListener {
         void onLongClick(Rapport rapport);
     }
 
     private List<Rapport> rapports;
-    private OnRapportActionListener listener;
+    private OnRapportClickListener clickListener;
+    private OnRapportActionListener actionListener;
 
-    public RapportAdapter(List<Rapport> rapports, OnRapportActionListener listener) {
+    // Updated constructor with both listeners
+    public RapportAdapter(List<Rapport> rapports,
+                          OnRapportClickListener clickListener,
+                          OnRapportActionListener actionListener) {
         this.rapports = rapports;
-        this.listener = listener;
+        this.clickListener = clickListener;
+        this.actionListener = actionListener;
+    }
+
+    // Keep the old constructor for backward compatibility
+    public RapportAdapter(List<Rapport> rapports, OnRapportActionListener actionListener) {
+        this.rapports = rapports;
+        this.actionListener = actionListener;
+        this.clickListener = null;
     }
 
     @NonNull
@@ -42,11 +57,12 @@ public class RapportAdapter extends RecyclerView.Adapter<RapportAdapter.ViewHold
         // Title
         holder.tvTitle.setText(r.getTitle());
 
-        // Format date
-        if (r.getDate_generation() != null) {
-            String date = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH)
-                    .format(r.getDate_generation().toDate());
-            holder.tvDate.setText(date);
+        // Format date generation
+        Timestamp dateGen = r.getDate_generation();
+        if (dateGen != null) {
+            String date = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRENCH)
+                    .format(dateGen.toDate());
+            holder.tvDate.setText(date); // Removed "Généré le: " prefix
         } else {
             holder.tvDate.setText("Date non spécifiée");
         }
@@ -54,39 +70,54 @@ public class RapportAdapter extends RecyclerView.Adapter<RapportAdapter.ViewHold
         // Type
         holder.tvType.setText(r.getType());
 
-        // Calculate size from content
-        if (r.getContenu() != null && !r.getContenu().isEmpty()) {
-            double sizeInMB = r.getContenu().length() / (1024.0 * 1024.0);
-            holder.tvSize.setText(String.format(Locale.FRENCH, "%.1f MB", sizeInMB));
-        } else {
-            holder.tvSize.setText("0 MB");
-        }
-
         // Status
         holder.tvStatut.setText(r.getStatut());
 
+        // Show period if exists
+        Timestamp perDebut = r.getPer_debut();
+        Timestamp perFin = r.getPer_fin();
+        if (perDebut != null && perFin != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
+            String periode = sdf.format(perDebut.toDate()) + " - " +
+                    sdf.format(perFin.toDate());
+            holder.tvPeriod.setText("Période: " + periode);
+            holder.tvPeriod.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvPeriod.setVisibility(View.GONE);
+        }
+
+        // Set up click listeners
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onRapportClick(r);
+            }
+        });
+
+        // Long click listener (unchanged)
         holder.itemView.setOnLongClickListener(v -> {
-            listener.onLongClick(r);
+            if (actionListener != null) {
+                actionListener.onLongClick(r);
+            }
             return true;
         });
     }
 
     @Override
     public int getItemCount() {
-        return rapports.size();
+        return rapports != null ? rapports.size() : 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle, tvDate, tvType, tvSize, tvStatut;
+        TextView tvTitle, tvDate, tvType, tvStatut, tvPeriod;
 
         ViewHolder(View v) {
             super(v);
             tvTitle = v.findViewById(R.id.tvRapportTitle);
             tvDate = v.findViewById(R.id.tvRapportDate);
             tvType = v.findViewById(R.id.tvRapportType);
-            tvSize = v.findViewById(R.id.tvRapportSize);
             tvStatut = v.findViewById(R.id.tvRapportStatut);
+            tvPeriod = v.findViewById(R.id.tvRapportPeriod);
         }
     }
 }

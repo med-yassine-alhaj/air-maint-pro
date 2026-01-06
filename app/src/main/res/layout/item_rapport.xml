@@ -13,73 +13,100 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/tvRapportTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Rapport mensuel - Octobre 2025"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_marginBottom="4dp"/>
-
-        <!-- Date and Size -->
+        <!-- Title Row with Icon -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginBottom="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_stat_rappots"
+             />
+
+            <TextView
+                android:id="@+id/tvRapportTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rapport mensuel - Octobre 2025"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#000" />
+
+        </LinearLayout>
+
+        <!-- Generation Date Row with Icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_rapport_calendar" />
 
             <TextView
                 android:id="@+id/tvRapportDate"
-                android:layout_width="0dp"
+                android:layout_width="327dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="01/11/2025"
-                android:textSize="14sp"
-                android:textColor="#666"/>
+                android:text="01/11/2025 14:30"
+                android:textColor="#666"
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tvRapportSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="· 2.4 MB"
-                android:textSize="14sp"
-                android:textColor="#666"/>
         </LinearLayout>
 
-        <!-- Type and Status -->
+        <!-- Type and Status Badges -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+            <!-- Type Badge -->
             <TextView
                 android:id="@+id/tvRapportType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mensuel"
+                android:text="Maintenance"
                 android:textSize="12sp"
-                android:textColor="#26A69A"
-                android:background="@drawable/badge_background"
+                android:textColor="#000000"
+                android:background="@drawable/status_badge_background"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:layout_marginEnd="8dp"/>
 
+            <!-- Status Badge -->
             <TextView
                 android:id="@+id/tvRapportStatut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Complété"
+                android:text="Terminé"
                 android:textSize="12sp"
-                android:textColor="#FF9800"
-                android:background="@drawable/badge_background"
+                android:textColor="#000000"
+                android:background="@drawable/status_badge_background"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"/>
 
         </LinearLayout>
+
+        <!-- Period (if exists) -->
+        <TextView
+            android:id="@+id/tvRapportPeriod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Période: 01/10/2025 - 31/10/2025"
+            android:textSize="12sp"
+            android:textColor="#666"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
