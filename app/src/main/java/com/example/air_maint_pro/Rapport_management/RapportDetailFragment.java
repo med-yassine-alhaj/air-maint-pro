@@ -30,13 +30,26 @@ import com.example.air_maint_pro.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.Timestamp;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -176,15 +189,12 @@ public class RapportDetailFragment extends Fragment {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 
-        // Export button click listener - TEST VERSION (no permissions needed)
+        // Export button click listener - Now exports as PDF
         btnExport.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Export en cours...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Génération du PDF en cours...", Toast.LENGTH_SHORT).show();
 
-            // Test export without permissions
-            testSimpleExport();
-
-            // For full version with permissions, use:
-            // checkStoragePermission();
+            // Export as PDF
+            exportAsPDF();
         });
 
         // Load additional details if we have an ID
@@ -198,10 +208,8 @@ public class RapportDetailFragment extends Fragment {
         }
     }
 
-    // ==================== TEST METHOD (NO PERMISSIONS NEEDED) ====================
-    private void testSimpleExport() {
-        Toast.makeText(getContext(), "Création du fichier...", Toast.LENGTH_SHORT).show();
-
+    // ==================== PDF EXPORT FUNCTION ====================
+    private void exportAsPDF() {
         new Thread(() -> {
             try {
                 // Get rapport data
@@ -217,36 +225,352 @@ public class RapportDetailFragment extends Fragment {
                     return;
                 }
 
-                // Create file in app's private storage (no permissions needed)
+                // Create PDF file in app's private storage
+                File internalDir = requireContext().getFilesDir();
+                String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRENCH).format(new Date());
+                String fileName = "Rapport_" + cleanFileName(rapport.getTitle()) + "_" + timestamp + ".pdf";
+                File pdfFile = new File(internalDir, fileName);
+
+                // Generate beautiful PDF
+                generateBeautifulPDF(pdfFile, rapport);
+
+                // Show success and share
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(),
+                            "✓ PDF généré: " + fileName,
+                            Toast.LENGTH_LONG).show();
+
+                    // Share the PDF
+                    sharePDF(pdfFile);
+                });
+
+            } catch (Exception e) {
+                showError("Erreur PDF: " + e.getMessage());
+                e.printStackTrace();
+
+                // Fallback to text file if PDF fails
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "Création PDF échouée, export texte à la place", Toast.LENGTH_SHORT).show();
+                    exportAsTextFallback();
+                });
+            }
+        }).start();
+    }
+
+    private void generateBeautifulPDF(File pdfFile, Rapport rapport) throws IOException {
+        // Create PDF writer and document
+        PdfWriter writer = new PdfWriter(new FileOutputStream(pdfFile));
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document document = new Document(pdfDoc);
+
+        try {
+            // Load fonts
+            PdfFont fontNormal = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+            PdfFont fontBold = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
+
+            // ===== HEADER =====
+            Paragraph header = new Paragraph("AIR MAINT PRO")
+                    .setFont(fontBold)
+                    .setFontSize(24)
+                    .setFontColor(ColorConstants.BLUE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(10);
+            document.add(header);
+
+            Paragraph subHeader = new Paragraph("Rapport d'Activité Professionnel")
+                    .setFont(fontBold)
+                    .setFontSize(16)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(30);
+            document.add(subHeader);
+
+            // ===== TITLE SECTION =====
+            Paragraph title = new Paragraph(rapport.getTitle())
+                    .setFont(fontBold)
+                    .setFontSize(18)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .setPadding(10)
+                    .setMarginBottom(20);
+            document.add(title);
+
+            // ===== INFO TABLE =====
+            Table infoTable = new Table(UnitValue.createPercentArray(new float[]{1, 3}));
+            infoTable.setWidth(UnitValue.createPercentValue(100));
+            infoTable.setMarginBottom(20);
+
+            // Add table rows with styling
+            addStyledTableRow(infoTable, "Type:", rapport.getType(), fontBold, fontNormal);
+            addStyledTableRow(infoTable, "Statut:", rapport.getStatut(), fontBold, fontNormal);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRENCH);
+            SimpleDateFormat dateSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
+
+            if (rapport.getDate_generation() != null) {
+                addStyledTableRow(infoTable, "Date de génération:",
+                        sdf.format(rapport.getDate_generation().toDate()), fontBold, fontNormal);
+            }
+
+            if (rapport.getPer_debut() != null && rapport.getPer_fin() != null) {
+                String periode = dateSdf.format(rapport.getPer_debut().toDate()) +
+                        " - " + dateSdf.format(rapport.getPer_fin().toDate());
+                addStyledTableRow(infoTable, "Période:", periode, fontBold, fontNormal);
+            }
+
+            if (rapport.getId() != null) {
+                addStyledTableRow(infoTable, "Référence:", rapport.getId(), fontBold, fontNormal);
+            }
+
+            document.add(infoTable);
+
+            // ===== DESCRIPTION SECTION =====
+            Paragraph descTitle = new Paragraph("DESCRIPTION")
+                    .setFont(fontBold)
+                    .setFontSize(16)
+                    .setFontColor(ColorConstants.DARK_GRAY)
+                    .setMarginTop(20)
+                    .setMarginBottom(10);
+            document.add(descTitle);
+
+            // Add a horizontal line
+            Table lineTable = new Table(UnitValue.createPercentArray(new float[]{1}));
+            lineTable.setWidth(UnitValue.createPercentValue(100));
+            lineTable.setMarginBottom(15);
+            Cell lineCell = new Cell()
+                    .setHeight(1)
+                    .setBackgroundColor(ColorConstants.GRAY);
+            lineTable.addCell(lineCell);
+            document.add(lineTable);
+
+            // Content with proper formatting
+            String content = rapport.getContenu();
+            if (content != null && !content.trim().isEmpty()) {
+                Paragraph contentPara = new Paragraph(content)
+                        .setFont(fontNormal)
+                        .setFontSize(12)
+                        .setTextAlignment(TextAlignment.JUSTIFIED)
+                        .setMultipliedLeading(1.5f)
+                        .setMarginBottom(20);
+                document.add(contentPara);
+            } else {
+                Paragraph noContent = new Paragraph("Aucun contenu spécifié pour ce rapport.")
+                        .setFont(fontNormal)
+                        .setFontSize(12)
+                        .setFontColor(ColorConstants.GRAY)
+                        .setTextAlignment(TextAlignment.CENTER)
+                        .setItalic()
+                        .setMarginBottom(20);
+                document.add(noContent);
+            }
+
+            // ===== SIGNATURE SECTION =====
+            Paragraph signatureTitle = new Paragraph("VALIDATION")
+                    .setFont(fontBold)
+                    .setFontSize(14)
+                    .setMarginTop(30)
+                    .setMarginBottom(20)
+                    .setTextAlignment(TextAlignment.CENTER);
+            document.add(signatureTitle);
+
+            Table signatureTable = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
+            signatureTable.setWidth(UnitValue.createPercentValue(100));
+            signatureTable.setMarginBottom(30);
+
+            // Left signature cell
+            Cell leftCell = new Cell()
+                    .add(new Paragraph("\n\n\n")
+                            .add(new Paragraph("________________________")
+                                    .setTextAlignment(TextAlignment.CENTER))
+                            .add(new Paragraph("Responsable")
+                                    .setFont(fontNormal)
+                                    .setFontSize(10)
+                                    .setTextAlignment(TextAlignment.CENTER))
+                            .add(new Paragraph("Signature")
+                                    .setFont(fontNormal)
+                                    .setFontSize(9)
+                                    .setTextAlignment(TextAlignment.CENTER)))
+                    .setBorder(null)
+                    .setTextAlignment(TextAlignment.CENTER);
+
+            // Right signature cell
+            Cell rightCell = new Cell()
+                    .add(new Paragraph("\n\n\n")
+                            .add(new Paragraph("________________________")
+                                    .setTextAlignment(TextAlignment.CENTER))
+                            .add(new Paragraph("Administrateur")
+                                    .setFont(fontNormal)
+                                    .setFontSize(10)
+                                    .setTextAlignment(TextAlignment.CENTER))
+                            .add(new Paragraph("Cachet & Signature")
+                                    .setFont(fontNormal)
+                                    .setFontSize(9)
+                                    .setTextAlignment(TextAlignment.CENTER)))
+                    .setBorder(null)
+                    .setTextAlignment(TextAlignment.CENTER);
+
+            signatureTable.addCell(leftCell);
+            signatureTable.addCell(rightCell);
+            document.add(signatureTable);
+
+            // ===== FOOTER =====
+            Paragraph footer = new Paragraph("Document généré le " + sdf.format(new Date()) +
+                    " • Air Maint Pro • Page 1/1")
+                    .setFont(fontNormal)
+                    .setFontSize(9)
+                    .setFontColor(ColorConstants.GRAY)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginTop(30);
+            document.add(footer);
+
+            // ===== WATERMARK (optional) =====
+            Paragraph watermark = new Paragraph("AIR MAINT PRO")
+                    .setFont(fontBold)
+                    .setFontSize(48)
+                    .setFontColor(new com.itextpdf.kernel.colors.DeviceRgb(230, 230, 230))
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setRotationAngle(Math.toRadians(45))
+                    .setFixedPosition(50, 300, 500);
+            document.add(watermark);
+
+        } finally {
+            document.close();
+        }
+    }
+
+    private void addStyledTableRow(Table table, String label, String value,
+                                   PdfFont fontBold, PdfFont fontNormal) {
+        // Label cell
+        Cell labelCell = new Cell()
+                .add(new Paragraph(label)
+                        .setFont(fontBold)
+                        .setFontSize(11))
+                .setPadding(8)
+                .setBackgroundColor(new com.itextpdf.kernel.colors.DeviceRgb(240, 240, 240))
+                .setVerticalAlignment(VerticalAlignment.MIDDLE);
+
+        // Value cell
+        Cell valueCell = new Cell()
+                .add(new Paragraph(value != null ? value : "Non spécifié")
+                        .setFont(fontNormal)
+                        .setFontSize(11))
+                .setPadding(8)
+                .setVerticalAlignment(VerticalAlignment.MIDDLE);
+
+        table.addCell(labelCell);
+        table.addCell(valueCell);
+    }
+
+    private void sharePDF(File pdfFile) {
+        try {
+            Uri uri = FileProvider.getUriForFile(requireContext(),
+                    requireContext().getPackageName() + ".provider",
+                    pdfFile);
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Rapport PDF - " + getRapportTitle());
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Veuillez trouver ci-joint le rapport en PDF.");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            // Create chooser with specific title
+            Intent chooser = Intent.createChooser(shareIntent, "Partager le PDF");
+            chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(chooser);
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(),
+                    "PDF créé, mais partage impossible: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+
+            // Fallback: Open the PDF
+            openPDF(pdfFile);
+        }
+    }
+
+    private void openPDF(File pdfFile) {
+        try {
+            Uri uri = FileProvider.getUriForFile(requireContext(),
+                    requireContext().getPackageName() + ".provider",
+                    pdfFile);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+            // Check if there's a PDF viewer
+            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                // Suggest to install a PDF viewer
+                Toast.makeText(getContext(),
+                        "Installez un lecteur PDF (comme Adobe Reader) pour ouvrir le fichier",
+                        Toast.LENGTH_LONG).show();
+
+                // Open file location
+                Toast.makeText(getContext(),
+                        "PDF sauvegardé: " + pdfFile.getAbsolutePath(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(),
+                    "Impossible d'ouvrir le PDF: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String getRapportTitle() {
+        Bundle args = getArguments();
+        if (args != null) {
+            return args.getString(ARG_RAPPORT_TITLE, "Sans titre");
+        }
+        return "Rapport";
+    }
+
+    // Fallback text export if PDF fails
+    private void exportAsTextFallback() {
+        new Thread(() -> {
+            try {
+                Bundle args = getArguments();
+                if (args == null) {
+                    showError("Pas de données");
+                    return;
+                }
+
+                Rapport rapport = createRapportFromArguments(args);
+                if (rapport == null) {
+                    showError("Rapport non trouvé");
+                    return;
+                }
+
                 File internalDir = requireContext().getFilesDir();
                 String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRENCH).format(new Date());
                 String fileName = "Rapport_" + cleanFileName(rapport.getTitle()) + "_" + timestamp + ".txt";
                 File textFile = new File(internalDir, fileName);
 
-                // Write content
                 FileOutputStream fos = new FileOutputStream(textFile);
                 String content = createRapportContent(rapport);
                 fos.write(content.getBytes());
                 fos.close();
 
-                // Show success
                 requireActivity().runOnUiThread(() -> {
                     Toast.makeText(getContext(),
-                            "✓ Fichier créé: " + fileName +
-                                    "\nEmplacement: " + textFile.getAbsolutePath(),
+                            "✓ Fichier texte créé: " + fileName,
                             Toast.LENGTH_LONG).show();
 
-                    // Try to share the file
                     shareFile(textFile);
                 });
 
             } catch (Exception e) {
-                showError("Erreur: " + e.getMessage());
-                e.printStackTrace();
+                showError("Erreur texte: " + e.getMessage());
             }
         }).start();
     }
+    // ==================== END PDF EXPORT ====================
 
+    // ==================== HELPER METHODS ====================
     private void showError(String message) {
         requireActivity().runOnUiThread(() -> {
             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
@@ -304,113 +628,19 @@ public class RapportDetailFragment extends Fragment {
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Rapport exporté");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Voici le rapport exporté");
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             startActivity(Intent.createChooser(shareIntent, "Partager le rapport"));
 
         } catch (Exception e) {
             Toast.makeText(getContext(),
-                    "Fichier créé, partage impossible: " + e.getMessage(),
+                    "Fichier créé, partage impossible",
                     Toast.LENGTH_SHORT).show();
         }
     }
 
     private String cleanFileName(String fileName) {
         return fileName.replaceAll("[^a-zA-Z0-9_\\-]", "_");
-    }
-    // ==================== END TEST METHOD ====================
-
-    // ==================== FULL VERSION WITH PERMISSIONS ====================
-    private void checkStoragePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                // Request permission
-                ActivityCompat.requestPermissions(requireActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        REQUEST_WRITE_STORAGE);
-            } else {
-                // Permission already granted
-                exportRapport();
-            }
-        } else {
-            // For older versions, permission is granted at install time
-            exportRapport();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_WRITE_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                exportRapport();
-            } else {
-                Toast.makeText(getContext(),
-                        "Permission refusée. Impossible d'exporter le rapport.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void exportRapport() {
-        // Get rapport from arguments
-        Bundle args = getArguments();
-        if (args == null) {
-            Toast.makeText(getContext(), "Données du rapport non disponibles", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Create Rapport object from arguments
-        Rapport rapport = createRapportFromArguments(args);
-        if (rapport == null) {
-            Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Show loading message
-        Toast.makeText(getContext(), "Génération du fichier en cours...", Toast.LENGTH_SHORT).show();
-
-        // Run export in background thread
-        new Thread(() -> {
-            try {
-                // Generate file name with current timestamp
-                String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRENCH).format(new Date());
-                String fileName = "Rapport_" + cleanFileName(rapport.getTitle()) + "_" + timestamp;
-
-                // Generate the file
-                File exportedFile = generateRapportFile(requireContext(), rapport, fileName);
-
-                // Update UI on main thread
-                requireActivity().runOnUiThread(() -> {
-                    // Show success message
-                    Toast.makeText(getContext(),
-                            "Fichier généré: " + exportedFile.getName(),
-                            Toast.LENGTH_LONG).show();
-
-                    // Open the file
-                    openFile(exportedFile);
-                });
-
-            } catch (IOException e) {
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(),
-                            "Erreur lors de la génération: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                });
-                e.printStackTrace();
-            } catch (Exception e) {
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(),
-                            "Erreur: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                });
-            }
-        }).start();
     }
 
     private Rapport createRapportFromArguments(Bundle args) {
@@ -439,61 +669,6 @@ public class RapportDetailFragment extends Fragment {
         return rapport;
     }
 
-    private File generateRapportFile(Context context, Rapport rapport, String fileName) throws IOException {
-        // Create directory if it doesn't exist
-        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File appDir = new File(downloadsDir, "AirMaintPro");
-        if (!appDir.exists()) {
-            appDir.mkdirs();
-        }
-
-        // Create text file
-        File textFile = new File(appDir, fileName + ".txt");
-        FileOutputStream fos = new FileOutputStream(textFile);
-
-        // Write content
-        String content = createRapportContent(rapport);
-        fos.write(content.getBytes());
-        fos.close();
-
-        return textFile;
-    }
-
-    private void openFile(File file) {
-        try {
-            Uri uri;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                uri = FileProvider.getUriForFile(requireContext(),
-                        requireContext().getPackageName() + ".provider",
-                        file);
-            } else {
-                uri = Uri.fromFile(file);
-            }
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "text/plain");
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-            // Check if there's an app to handle text files
-            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivity(intent);
-            } else {
-                // Show file location
-                Toast.makeText(getContext(),
-                        "Fichier sauvegardé dans: Downloads/AirMaintPro/" + file.getName(),
-                        Toast.LENGTH_LONG).show();
-            }
-
-        } catch (Exception e) {
-            // Show file location even if we can't open it
-            Toast.makeText(getContext(),
-                    "Fichier sauvegardé dans: " + file.getAbsolutePath(),
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-    // ==================== END FULL VERSION ====================
-
     private void loadAdditionalDetails(String rapportId, TextView tvCreatedBy, TextView tvLastModified) {
         db.collection("rapport").document(rapportId)
                 .get()
@@ -501,19 +676,13 @@ public class RapportDetailFragment extends Fragment {
                     if (documentSnapshot.exists()) {
                         Rapport rapport = documentSnapshot.toObject(Rapport.class);
                         if (rapport != null) {
-                            // Set created by if available in your model
-                            // For now, using default value
                             tvCreatedBy.setText("Administrateur");
-
-                            // Set last modified date if available
-                            // You might want to add a last_modified field to your Rapport model
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRENCH);
                             tvLastModified.setText(sdf.format(new Date()));
                         }
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // Silent fail - these are optional fields
                     tvCreatedBy.setText("Non disponible");
                     tvLastModified.setText("Non disponible");
                 });
