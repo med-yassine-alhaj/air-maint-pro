@@ -6,6 +6,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Vol implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -213,5 +214,80 @@ public class Vol implements Serializable {
                 dateDepart != null && dateArrivee != null &&
                 dateArrivee.after(dateDepart) &&
                 avionId != null && !avionId.trim().isEmpty();
+    }
+
+    @PropertyName("equipe_id")
+    private String equipeId;
+
+    @PropertyName("equipe_nom")
+    private String equipeNom;
+
+    @PropertyName("equipe_code")
+    private String equipeCode;
+
+    @PropertyName("equipe_membres")
+    private List<MembreEquipe> equipeMembres;
+
+    // Getters et Setters
+    @PropertyName("equipe_id")
+    public String getEquipeId() {
+        return equipeId;
+    }
+
+    @PropertyName("equipe_id")
+    public void setEquipeId(String equipeId) {
+        this.equipeId = equipeId;
+    }
+
+    @PropertyName("equipe_nom")
+    public String getEquipeNom() {
+        return equipeNom;
+    }
+
+    @PropertyName("equipe_nom")
+    public void setEquipeNom(String equipeNom) {
+        this.equipeNom = equipeNom;
+    }
+
+    @PropertyName("equipe_code")
+    public String getEquipeCode() {
+        return equipeCode;
+    }
+
+    @PropertyName("equipe_code")
+    public void setEquipeCode(String equipeCode) {
+        this.equipeCode = equipeCode;
+    }
+
+    @PropertyName("equipe_membres")
+    public List<MembreEquipe> getEquipeMembres() {
+        return equipeMembres;
+    }
+
+    @PropertyName("equipe_membres")
+    public void setEquipeMembres(List<MembreEquipe> equipeMembres) {
+        this.equipeMembres = equipeMembres;
+    }
+
+    // Méthodes utilitaires
+    @Exclude
+    public boolean aUneEquipeAssignée() {
+        return equipeId != null && !equipeId.trim().isEmpty();
+    }
+
+    @Exclude
+    public void assignerEquipe(Equipe equipe) {
+        this.equipeId = equipe.getId();
+        this.equipeNom = equipe.getNom();
+        this.equipeCode = equipe.getCode();
+        this.equipeMembres = equipe.getMembres();
+    }
+
+    @Exclude
+    public void libererEquipe() {
+        this.equipeId = null;
+        this.equipeNom = null;
+        this.equipeCode = null;
+        this.equipeMembres = null;
     }
 }

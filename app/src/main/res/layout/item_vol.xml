@@ -99,6 +99,33 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/text_secondary" />
+        <!-- Ajoutez ces éléments dans item_vol.xml après tvStatut -->
+
+        <!-- Équipe assignée -->
+        <TextView
+            android:id="@+id/tvEquipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/main"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone" />
+
+        <!-- Bouton d'assignation d'équipe -->
+        <Button
+            android:id="@+id/btnAssignerEquipe"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:text="Assigner équipe"
+            android:textSize="12sp"
+            android:paddingHorizontal="12dp"
+            android:backgroundTint="@color/main"
+            android:textColor="@color/main_text"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/main"
+            app:strokeWidth="1dp" />
 
     </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class VolAdapter extends RecyclerView.Adapter<VolAdapter.VolViewHolder> {
         void onVolClick(Vol vol);
         void onVolEdit(Vol vol);
         void onVolDelete(Vol vol);
+        void onVolAssignerEquipe(Vol vol);
     }
 
     public VolAdapter(List<Vol> volList, Context context, OnVolClickListener listener) {
@@ -56,6 +58,17 @@ public class VolAdapter extends RecyclerView.Adapter<VolAdapter.VolViewHolder> {
 
         holder.tvAvion.setText("Avion: " + vol.getAvionMatricule());
         holder.tvStatut.setText(vol.getStatut());
+        if (vol.aUneEquipeAssignée()) {
+            holder.tvEquipe.setText("Équipe: " + vol.getEquipeNom() + " (" + vol.getEquipeCode() + ")");
+            holder.tvEquipe.setVisibility(View.VISIBLE);
+            holder.btnAssignerEquipe.setText("Changer équipe");
+            holder.btnAssignerEquipe.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvEquipe.setVisibility(View.GONE);
+            holder.btnAssignerEquipe.setText("Assigner équipe");
+            holder.btnAssignerEquipe.setVisibility(View.VISIBLE);
+        }
+
 
         // Gérer la couleur du statut
         switch (vol.getStatut()) {
@@ -96,6 +109,11 @@ public class VolAdapter extends RecyclerView.Adapter<VolAdapter.VolViewHolder> {
                 listener.onVolDelete(vol);
             }
         });
+        holder.btnAssignerEquipe.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onVolAssignerEquipe(vol);
+            }
+        });
     }
 
     @Override
@@ -104,13 +122,9 @@ public class VolAdapter extends RecyclerView.Adapter<VolAdapter.VolViewHolder> {
     }
 
     static class VolViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNumeroVol;
-        TextView tvItineraire;
-        TextView tvDateDepart;
-        TextView tvAvion;
-        TextView tvStatut;
-        ImageButton btnEdit;
-        ImageButton btnDelete;
+        TextView tvNumeroVol, tvItineraire, tvDateDepart, tvAvion, tvStatut, tvEquipe; // ← AJOUT tvEquipe
+        ImageButton btnEdit, btnDelete;
+        Button btnAssignerEquipe; // ← AJOUT
 
         VolViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,8 +133,10 @@ public class VolAdapter extends RecyclerView.Adapter<VolAdapter.VolViewHolder> {
             tvDateDepart = itemView.findViewById(R.id.tvDateDepart);
             tvAvion = itemView.findViewById(R.id.tvAvion);
             tvStatut = itemView.findViewById(R.id.tvStatut);
+            tvEquipe = itemView.findViewById(R.id.tvEquipe); // ← AJOUT
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnAssignerEquipe = itemView.findViewById(R.id.btnAssignerEquipe); // ← AJOUT
         }
     }
 }
