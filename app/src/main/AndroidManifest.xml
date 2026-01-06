@@ -35,6 +35,25 @@
             android:exported="false"
             android:theme="@style/Theme.AirMaintPro" />
 
+        <activity
+            android:name=".gestion_vols.AddEditEquipageActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".gestion_vols.AddEditEquipeActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".gestion_vols.DetailEquipeActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+
+        <activity
+            android:name=".gestion_vols.AssignerVolActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+        <activity
+            android:name=".gestion_vols.AssignerEquipeActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+
         <!-- Activité Création Technicien -->
         <activity
             android:name=".TechnicienActivity"

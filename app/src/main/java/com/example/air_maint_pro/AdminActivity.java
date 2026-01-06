@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.air_maint_pro.gestion_avion.AvionListFragment;
-import com.example.air_maint_pro.gestion_vols.VolListFragment;
+import com.example.air_maint_pro.gestion_vols.MainVolsFragment;
 import com.example.air_maint_pro.intervention_management.InterventionsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +55,7 @@ public class AdminActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_avions) {
             fragment = new AvionListFragment();
         } else if (itemId == R.id.nav_vols) {
-            fragment = new VolListFragment();
+            fragment = new MainVolsFragment();
         } else if (itemId == R.id.nav_interventions) {
             fragment = new InterventionsFragment();
         } else if (itemId == R.id.nav_users) {

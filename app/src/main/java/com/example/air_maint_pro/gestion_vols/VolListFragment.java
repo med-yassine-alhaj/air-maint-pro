@@ -42,19 +42,39 @@ public class VolListFragment extends Fragment implements VolAdapter.OnVolClickLi
                 result -> {
                     if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
                         Intent data = result.getData();
-                        Vol updatedVol = (Vol) data.getSerializableExtra(AddEditVolActivity.EXTRA_VOL);
-                        boolean isEdit = data.getBooleanExtra(AddEditVolActivity.EXTRA_IS_EDIT, false);
+                        if (data.hasExtra(AddEditVolActivity.EXTRA_VOL)) {
+                            // C'est une mise à jour de vol standard
+                            Vol updatedVol = (Vol) data.getSerializableExtra(AddEditVolActivity.EXTRA_VOL);
+                            boolean isEdit = data.getBooleanExtra(AddEditVolActivity.EXTRA_IS_EDIT, false);
 
-                        if (isEdit) {
-                            // Mise à jour d'un vol existant
-                            updateVolInList(updatedVol);
-                        } else {
-                            // Ajout d'un nouveau vol
-                            addVolToList(updatedVol);
+                            if (isEdit) {
+                                updateVolInList(updatedVol);
+                            } else {
+                                addVolToList(updatedVol);
+                            }
+                        } else if (data.hasExtra("VOL_ID")) {
+                            // C'est une mise à jour d'assignation d'équipe
+                            String volId = data.getStringExtra("VOL_ID");
+                            if (volId != null) {
+                                // Recharger le vol mis à jour
+                                reloadVol(volId);
+                            }
                         }
                     }
                 }
         );
+    }
+    private void reloadVol(String volId) {
+        db.collection("vols")
+                .document(volId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Vol updatedVol = documentSnapshot.toObject(Vol.class);
+                        updatedVol.setId(documentSnapshot.getId());
+                        updateVolInList(updatedVol);
+                    }
+                });
     }
 
     @Nullable
@@ -184,4 +204,15 @@ public class VolListFragment extends Fragment implements VolAdapter.OnVolClickLi
     public void onVolDelete(Vol vol) {
         deleteVol(vol);
     }
+    @Override
+    public void onVolAssignerEquipe(Vol vol) {
+        openAssignerEquipeActivity(vol);
+    }
+
+    private void openAssignerEquipeActivity(Vol vol) {
+        Intent intent = new Intent(getContext(), AssignerEquipeActivity.class);
+        intent.putExtra("VOL_ID", vol.getId());
+        addEditVolLauncher.launch(intent); // Réutilise le même launcher
+    }
+
 }
