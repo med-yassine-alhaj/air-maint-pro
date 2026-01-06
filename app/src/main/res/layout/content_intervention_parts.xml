@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Parts Used"
+        android:text="Pièces utilisées"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/text"
@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List of parts and components used for this intervention"
+        android:text="Liste des pièces et composants utilisés pour cette intervention"
         android:textSize="14sp"
         android:textColor="@color/muted_text"
         android:layout_marginBottom="16dp" />
@@ -28,7 +28,7 @@
         android:id="@+id/buttonAddPart"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="Add Part"
+        android:text="Ajouter une pièce"
         android:textSize="16sp"
         android:textStyle="bold"
         android:backgroundTint="@color/blue_primary"
@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Summary"
+            android:text="Résumé"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/text"
@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Parts"
+                    android:text="Total des pièces"
                     android:textSize="12sp"
                     android:textColor="@color/muted_text" />
 
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Weight"
+                    android:text="Poids total"
                     android:textSize="12sp"
                     android:textColor="@color/muted_text" />
 
@@ -131,7 +131,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Cost"
+                    android:text="Coût total"
                     android:textSize="12sp"
                     android:textColor="@color/muted_text" />
 

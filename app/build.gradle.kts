@@ -75,4 +75,6 @@ dependencies {
     // Pour PDF generation
     implementation("com.itextpdf:itext7-core:7.2.5")
 
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 }
