@@ -65,5 +65,11 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
+// For PDF generation
+    implementation("com.itextpdf:itext7-core:7.2.5")
+// For file download permissions
+    implementation("com.github.yalantis:ucrop:2.2.6")
+// For file picker (optional)
+    implementation("com.github.jaiselrahman:FilePicker:1.3.2")
 
 }
