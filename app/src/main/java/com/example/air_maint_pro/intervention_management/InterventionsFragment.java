@@ -93,9 +93,7 @@ public class InterventionsFragment extends Fragment {
         interventionList = new ArrayList<>();
         allInterventionsList = new ArrayList<>();
         adapter = new InterventionAdapter(interventionList);
-        adapter.setOnItemClickListener(intervention -> {
-            showInterventionDetail(intervention);
-        });
+        // No click listener for supervisors - details view not accessible
         adapter.setOnPDFExportClickListener(intervention -> {
             exportInterventionToPDF(intervention);
         });
@@ -132,6 +130,32 @@ public class InterventionsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void checkUserRoleAndSetupClickListener() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            return;
+        }
+        
+        String currentUserId = auth.getCurrentUser().getUid();
+        db.collection("Users").document(currentUserId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String role = documentSnapshot.getString("role");
+                        // Only set click listener for technicien users
+                        if ("technicien".equals(role)) {
+                            adapter.setOnItemClickListener(intervention -> {
+                                showInterventionDetail(intervention);
+                            });
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // If we can't get the role, don't set the listener
+                    System.out.println("DEBUG: Error getting user role: " + e.getMessage());
+                });
     }
 
     private void loadInterventions() {
