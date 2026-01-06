@@ -62,7 +62,7 @@ public class RapportAdapter extends RecyclerView.Adapter<RapportAdapter.ViewHold
         if (dateGen != null) {
             String date = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRENCH)
                     .format(dateGen.toDate());
-            holder.tvDate.setText(date); // Removed "Généré le: " prefix
+            holder.tvDate.setText(date);
         } else {
             holder.tvDate.setText("Date non spécifiée");
         }
@@ -105,6 +105,12 @@ public class RapportAdapter extends RecyclerView.Adapter<RapportAdapter.ViewHold
     @Override
     public int getItemCount() {
         return rapports != null ? rapports.size() : 0;
+    }
+
+    // Add this method to update the adapter with new filtered data
+    public void updateList(List<Rapport> newList) {
+        this.rapports = newList;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

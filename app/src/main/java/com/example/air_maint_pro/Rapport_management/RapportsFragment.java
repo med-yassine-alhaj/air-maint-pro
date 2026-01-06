@@ -1,9 +1,13 @@
 package com.example.air_maint_pro.Rapport_management;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +31,10 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
     private RecyclerView rvReports;
     private RapportAdapter adapter;
     private List<Rapport> rapportList = new ArrayList<>();
+    private List<Rapport> filteredList = new ArrayList<>();
     private FirebaseFirestore db;
+    private EditText searchEditText;
+    private ImageButton clearSearchButton;
 
     @Nullable
     @Override
@@ -40,13 +47,20 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
         // Firebase
         db = FirebaseFirestore.getInstance();
 
+        // Initialize views
+        searchEditText = view.findViewById(R.id.searchEditText);
+        clearSearchButton = view.findViewById(R.id.clearSearchButton);
+
         // RecyclerView setup
         rvReports = view.findViewById(R.id.rvReports);
         rvReports.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // ✅ CORRECTION : Passe "this" car le fragment implémente l'interface
-        adapter = new RapportAdapter(rapportList, this, this);
+        // Initialize adapter with empty list
+        adapter = new RapportAdapter(filteredList, this, this);
         rvReports.setAdapter(adapter);
+
+        // Setup search functionality
+        setupSearch();
 
         // Load rapports
         loadRapports();
@@ -60,13 +74,75 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
         return view;
     }
 
-    // ✅ CORRECTION : Implémente la méthode de l'interface
+    private void setupSearch() {
+        // Add text change listener to search field
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterRapports(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Clear search button
+        clearSearchButton.setOnClickListener(v -> {
+            searchEditText.setText("");
+            filterRapports("");
+        });
+
+        // Show/hide clear button based on text
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearSearchButton.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void filterRapports(String query) {
+        filteredList.clear();
+
+        if (query.isEmpty()) {
+            // If search is empty, show all rapports
+            filteredList.addAll(rapportList);
+        } else {
+            // Filter the list
+            String lowerCaseQuery = query.toLowerCase(Locale.getDefault());
+            for (Rapport rapport : rapportList) {
+                // Search in title, type, status, and content
+                if (rapport.getTitle() != null && rapport.getTitle().toLowerCase(Locale.getDefault()).contains(lowerCaseQuery) ||
+                        rapport.getType() != null && rapport.getType().toLowerCase(Locale.getDefault()).contains(lowerCaseQuery) ||
+                        rapport.getStatut() != null && rapport.getStatut().toLowerCase(Locale.getDefault()).contains(lowerCaseQuery) ||
+                        rapport.getContenu() != null && rapport.getContenu().toLowerCase(Locale.getDefault()).contains(lowerCaseQuery)) {
+                    filteredList.add(rapport);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+
+        // Show message if no results found
+        if (!query.isEmpty() && filteredList.isEmpty()) {
+            Toast.makeText(getContext(), "Aucun rapport trouvé pour \"" + query + "\"", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onLongClick(Rapport rapport) {
         showRapportOptions(rapport);
     }
 
-    // ✅ Implement click listener for opening detail fragment
     @Override
     public void onRapportClick(Rapport rapport) {
         openRapportDetail(rapport);
@@ -96,7 +172,8 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
                             Toast.makeText(getContext(), "Erreur parsing: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                    adapter.notifyDataSetChanged();
+                    // Update filtered list with all rapports initially
+                    filterRapports(searchEditText.getText().toString());
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Erreur de chargement: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -111,7 +188,7 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            openRapportDetail(r); // Changed from showRapportDetails to openRapportDetail
+                            openRapportDetail(r);
                             break;
                         case 1:
                             Toast.makeText(getContext(), "Modifier (à implémenter)", Toast.LENGTH_SHORT).show();
@@ -125,7 +202,6 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
                 .show();
     }
 
-    // New method to open detail fragment
     private void openRapportDetail(Rapport r) {
         RapportDetailFragment detailFragment = RapportDetailFragment.newInstance(r);
 
@@ -136,7 +212,6 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
                 .commit();
     }
 
-    // Keep the old method for backward compatibility (not used in new flow)
     private void showRapportDetails(Rapport r) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRENCH);
 
@@ -186,7 +261,6 @@ public class RapportsFragment extends Fragment implements RapportAdapter.OnRappo
                 .show();
     }
 
-    // Setup FAB click listener
     private void setupFloatingActionButton(View view) {
         FloatingActionButton fabAddRapport = view.findViewById(R.id.fabAddRapport);
         fabAddRapport.setOnClickListener(v -> {
