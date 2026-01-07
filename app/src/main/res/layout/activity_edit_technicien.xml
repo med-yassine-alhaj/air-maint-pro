@@ -17,7 +17,7 @@
             android:text="Modifier le Technicien"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#FF9800"
+            android:textColor="#2196F3"
             android:gravity="center"
             android:layout_marginBottom="24dp" />
 
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Mettre à jour"
-                android:backgroundTint="#FF9800"
+                android:backgroundTint="#2196F3"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:padding="12dp"

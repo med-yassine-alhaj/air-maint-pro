@@ -1,6 +1,7 @@
 package com.example.air_maint_pro;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,10 +32,23 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Charger les préférences avant de setContentView
+        sharedPreferences = getSharedPreferences("app_settings", MODE_PRIVATE);
+        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+
+        // Appliquer le mode sombre
+        if (darkModeEnabled) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_login);
 
         // Initialisation Firebase
@@ -65,9 +80,6 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
-
-        // Vous pouvez ajouter une ProgressBar dans le layout si vous voulez
-        // progressBar = findViewById(R.id.progressBar);
     }
 
     private void setupListeners() {
