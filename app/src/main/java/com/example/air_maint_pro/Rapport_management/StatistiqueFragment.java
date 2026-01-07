@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.air_maint_pro.R;
+import com.example.air_maint_pro.SettingsFragment;
 import com.example.air_maint_pro.gestion_vols.Vol;
 import com.example.air_maint_pro.TechnicienListFragment;
 import com.example.air_maint_pro.intervention_management.Intervention;
@@ -120,6 +121,12 @@ public class StatistiqueFragment extends Fragment {
                         .commit();
                 return true;
 
+            }else if (itemId == R.id.nav_settings) {
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new SettingsFragment())
+                        .addToBackStack(null)
+                        .commit();
+                return true;
             } else if (itemId == R.id.nav_home) {
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new TechnicienListFragment())

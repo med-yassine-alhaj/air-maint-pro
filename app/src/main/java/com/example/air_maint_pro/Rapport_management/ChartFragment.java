@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.air_maint_pro.R;
+import com.example.air_maint_pro.SettingsFragment;
 import com.example.air_maint_pro.TechnicienListFragment;
 import com.example.air_maint_pro.intervention_management.Intervention;
 import com.github.mikephil.charting.charts.BarChart;
@@ -126,6 +127,12 @@ public class ChartFragment extends Fragment {
                     Toast.makeText(getContext(), "Graphiques actualisés", Toast.LENGTH_SHORT).show();
                     return true;
 
+                }else if (itemId == R.id.nav_settings) {
+                    requireActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new SettingsFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    return true;
                 } else if (itemId == R.id.nav_home) {
                     requireActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new TechnicienListFragment())
