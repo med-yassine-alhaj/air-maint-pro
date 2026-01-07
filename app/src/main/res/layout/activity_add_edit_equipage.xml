@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fillViewport="true"
+    android:background="@color/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Titre -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nouveau Membre d'Équipage"
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Nom -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="Ex: Dupont"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Prénom -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prénom *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="Ex: Jean"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPrenom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Matricule -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Matricule *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="Ex: EMP001"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMatricule"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textCapCharacters"
+                android:maxLength="20"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Rôle -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rôle *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_background"
+            android:padding="1dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteRole"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Cliquez pour sélectionner un rôle"
+                android:inputType="none"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="40dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/text"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:completionHint="Liste des rôles"
+                android:completionThreshold="1"
+                android:dropDownWidth="match_parent"
+                android:dropDownHeight="wrap_content"
+                android:dropDownVerticalOffset="4dp"
+                android:dropDownHorizontalOffset="0dp"
+                android:dropDownSelector="@color/white"
+                android:imeOptions="actionDone" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_arrow_drop_down"
+                android:contentDescription="Ouvrir la liste"
+                app:tint="@color/muted_text" />
+
+        </LinearLayout>
+
+        <!-- Email -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email *"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="exemple@compagnie.com"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="textEmailAddress"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Téléphone -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Téléphone"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:minHeight="56dp"
+            android:hint="+33 1 23 45 67 89"
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTelephone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:inputType="phone"
+                android:paddingVertical="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Qualifications -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qualifications / Certifications"
+            android:textSize="16sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Licences, certifications..."
+            app:hintTextColor="@color/muted_text"
+            app:boxStrokeColor="@color/border"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxBackgroundColor="@color/input_bg">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etQualifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:minLines="3"
+                android:maxLines="5"
+                android:gravity="top|start"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/card_text"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Champ obligatoires -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="* Champs obligatoires"
+            android:textSize="12sp"
+            android:textColor="@color/muted_text"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Annuler"
+                android:backgroundTint="@color/gray"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/border"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Enregistrer"
+                android:backgroundTint="@color/main"
+                android:textColor="@color/main_text"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

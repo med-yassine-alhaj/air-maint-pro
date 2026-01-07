@@ -81,7 +81,7 @@ public class StatistiqueFragment extends Fragment {
         recentActivityRecyclerView = view.findViewById(R.id.recentActivityRecyclerView);
 
         // Valeurs par défaut
-        txtVolsCount.setText("284");
+        txtVolsCount.setText("5");
         txtVolsPercent.setText("+12%");
         txtVolsPercent.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
     }

@@ -13,16 +13,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.air_maint_pro.Avion;
+import com.example.air_maint_pro.gestion_avion.Avion;
 import com.example.air_maint_pro.R;
 import com.example.air_maint_pro.Technicien;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -42,8 +48,8 @@ public class InterventionDetailFragment extends Fragment {
     private LinearLayout tabInfo;
     private LinearLayout tabRemarques;
     private LinearLayout tabSolution;
+    private LinearLayout tabParts;
     private LinearLayout tabClose;
-    private ImageView iconRemarquesCheck;
     private FrameLayout contentContainer;
     private ImageButton buttonBack;
 
@@ -51,7 +57,17 @@ public class InterventionDetailFragment extends Fragment {
     private View infoView;
     private View remarquesView;
     private View solutionView;
+    private View partsView;
     private View closeView;
+
+    // Parts views
+    private RecyclerView recyclerViewParts;
+    private PartsAdapter partsAdapter;
+    private Button buttonAddPart;
+    private TextView textTotalParts;
+    private TextView textTotalWeight;
+    private TextView textTotalCost;
+    private TextView textTabParts;
 
     // Form fields
     private TextInputEditText editTextRemarques;
@@ -96,15 +112,17 @@ public class InterventionDetailFragment extends Fragment {
         tabInfo = view.findViewById(R.id.tabInfo);
         tabRemarques = view.findViewById(R.id.tabRemarques);
         tabSolution = view.findViewById(R.id.tabSolution);
+        tabParts = view.findViewById(R.id.tabParts);
         tabClose = view.findViewById(R.id.tabClose);
-        iconRemarquesCheck = view.findViewById(R.id.iconRemarquesCheck);
         contentContainer = view.findViewById(R.id.contentContainer);
         buttonBack = view.findViewById(R.id.buttonBack);
+        textTabParts = view.findViewById(R.id.textTabParts);
 
         // Setup tab listeners
         tabInfo.setOnClickListener(v -> switchToTab("Info"));
         tabRemarques.setOnClickListener(v -> switchToTab("Remarques"));
         tabSolution.setOnClickListener(v -> switchToTab("Solution"));
+        tabParts.setOnClickListener(v -> switchToTab("Parts"));
         tabClose.setOnClickListener(v -> switchToTab("Close"));
 
         // Back button
@@ -133,6 +151,9 @@ public class InterventionDetailFragment extends Fragment {
                             hasSolution = intervention.getDescriptionSolution() != null && !intervention.getDescriptionSolution().isEmpty();
                             updateUI();
                             initializeContentViews();
+                            if (textTabParts != null) {
+                                updatePartsTabBadge();
+                            }
                             switchToTab("Info");
                         }
                     } else {
@@ -178,11 +199,6 @@ public class InterventionDetailFragment extends Fragment {
         textType.setText(intervention.getTypeIntervention());
         textType.setBackgroundColor(getResources().getColor(R.color.purple_200, null));
 
-        // Update checkmark visibility (only if view is initialized)
-        if (iconRemarquesCheck != null && hasRemarques) {
-            iconRemarquesCheck.setVisibility(View.VISIBLE);
-        }
-
         updateCloseTabStatus();
     }
 
@@ -206,6 +222,20 @@ public class InterventionDetailFragment extends Fragment {
         buttonSaveSolution = solutionView.findViewById(R.id.buttonSaveSolution);
         buttonSaveSolution.setOnClickListener(v -> saveSolution());
 
+        // Parts view
+        partsView = inflater.inflate(R.layout.content_intervention_parts, contentContainer, false);
+        recyclerViewParts = partsView.findViewById(R.id.recyclerViewParts);
+        buttonAddPart = partsView.findViewById(R.id.buttonAddPart);
+        textTotalParts = partsView.findViewById(R.id.textTotalParts);
+        textTotalWeight = partsView.findViewById(R.id.textTotalWeight);
+        textTotalCost = partsView.findViewById(R.id.textTotalCost);
+
+        recyclerViewParts.setLayoutManager(new LinearLayoutManager(getContext()));
+        partsAdapter = new PartsAdapter(new ArrayList<>(), position -> deletePart(position));
+        recyclerViewParts.setAdapter(partsAdapter);
+
+        buttonAddPart.setOnClickListener(v -> showAddPartDialog());
+
         // Close view
         closeView = inflater.inflate(R.layout.content_intervention_close, contentContainer, false);
         iconRemarquesStatus = closeView.findViewById(R.id.iconRemarquesStatus);
@@ -218,7 +248,7 @@ public class InterventionDetailFragment extends Fragment {
         if (intervention == null || infoView == null) return;
 
         // Load aircraft
-        db.collection("avions").document(intervention.getAvionId())
+        db.collection("Avions").document(intervention.getAvionId())
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -256,7 +286,7 @@ public class InterventionDetailFragment extends Fragment {
 
         // Set problem description
         TextView textProblemDescription = infoView.findViewById(R.id.textProblemDescription);
-        textProblemDescription.setText(intervention.getDescriptionProbleme() != null ? 
+        textProblemDescription.setText(intervention.getDescriptionProbleme() != null ?
                 intervention.getDescriptionProbleme() : "Aucune description fournie");
     }
 
@@ -267,12 +297,14 @@ public class InterventionDetailFragment extends Fragment {
         tabInfo.setBackgroundResource(tab.equals("Info") ? R.drawable.tab_background_selected : R.drawable.tab_background_unselected);
         tabRemarques.setBackgroundResource(tab.equals("Remarques") ? R.drawable.tab_background_selected : R.drawable.tab_background_unselected);
         tabSolution.setBackgroundResource(tab.equals("Solution") ? R.drawable.tab_background_selected : R.drawable.tab_background_unselected);
+        tabParts.setBackgroundResource(tab.equals("Parts") ? R.drawable.tab_background_selected : R.drawable.tab_background_unselected);
         tabClose.setBackgroundResource(tab.equals("Close") ? R.drawable.tab_background_selected : R.drawable.tab_background_unselected);
 
         // Update tab text colors
         updateTabTextColor(tabInfo, tab.equals("Info"));
         updateTabTextColor(tabRemarques, tab.equals("Remarques"));
         updateTabTextColor(tabSolution, tab.equals("Solution"));
+        updateTabTextColor(tabParts, tab.equals("Parts"));
         updateTabTextColor(tabClose, tab.equals("Close"));
 
         // Show appropriate content
@@ -293,6 +325,10 @@ public class InterventionDetailFragment extends Fragment {
                     editTextSolution.setText(intervention.getDescriptionSolution());
                     editTextActualDuration.setText(String.format(Locale.getDefault(), "%.1f", intervention.getDureeHeures()));
                 }
+                break;
+            case "Parts":
+                contentContainer.addView(partsView);
+                loadParts();
                 break;
             case "Close":
                 contentContainer.addView(closeView);
@@ -326,7 +362,6 @@ public class InterventionDetailFragment extends Fragment {
                     Toast.makeText(getContext(), "Remarques enregistrées avec succès", Toast.LENGTH_SHORT).show();
                     hasRemarques = true;
                     intervention.setRemarques(remarques);
-                    iconRemarquesCheck.setVisibility(View.VISIBLE);
                     updateCloseTabStatus();
                 })
                 .addOnFailureListener(e -> {
@@ -423,5 +458,163 @@ public class InterventionDetailFragment extends Fragment {
                     Toast.makeText(getContext(), "Erreur lors de la fermeture: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-}
 
+    private void loadParts() {
+        if (intervention == null) return;
+        List<PartUsage> parts = intervention.getParts();
+        if (parts == null) {
+            parts = new ArrayList<>();
+        }
+        partsAdapter.updateParts(parts);
+        updatePartsSummary();
+        updatePartsTabBadge();
+    }
+
+    private void showAddPartDialog() {
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_part, null);
+        
+        TextInputEditText editTextPartName = dialogView.findViewById(R.id.editTextPartName);
+        TextInputEditText editTextPartDescription = dialogView.findViewById(R.id.editTextPartDescription);
+        TextInputEditText editTextQuantity = dialogView.findViewById(R.id.editTextQuantity);
+        TextInputEditText editTextWeight = dialogView.findViewById(R.id.editTextWeight);
+        TextInputEditText editTextUnitPrice = dialogView.findViewById(R.id.editTextUnitPrice);
+        Button buttonAdd = dialogView.findViewById(R.id.buttonAdd);
+        Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+
+        androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(getContext())
+                .setView(dialogView)
+                .create();
+
+        buttonAdd.setOnClickListener(v -> {
+            String name = editTextPartName.getText().toString().trim();
+            String description = editTextPartDescription.getText().toString().trim();
+            
+            if (name.isEmpty()) {
+                Toast.makeText(getContext(), "Part name is required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int quantity;
+            try {
+                String quantityText = editTextQuantity.getText().toString().trim();
+                quantity = quantityText.isEmpty() ? 1 : Integer.parseInt(quantityText);
+                if (quantity <= 0) {
+                    Toast.makeText(getContext(), "Quantity must be greater than 0", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Invalid quantity", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            float weight;
+            try {
+                String weightText = editTextWeight.getText().toString().trim();
+                weight = weightText.isEmpty() ? 0.0f : Float.parseFloat(weightText);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Invalid weight", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            float price;
+            try {
+                String priceText = editTextUnitPrice.getText().toString().trim();
+                price = priceText.isEmpty() ? 0.0f : Float.parseFloat(priceText);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Invalid price", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Piece piece = new Piece(name, description, weight, price);
+            PartUsage partUsage = new PartUsage(piece, quantity);
+            
+            addPart(partUsage);
+            dialog.dismiss();
+        });
+
+        buttonCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void addPart(PartUsage partUsage) {
+        if (intervention == null) return;
+        
+        List<PartUsage> parts = intervention.getParts();
+        if (parts == null) {
+            parts = new ArrayList<>();
+        }
+        parts.add(partUsage);
+        intervention.setParts(parts);
+        
+        savePartsToFirestore();
+    }
+
+    private void deletePart(int position) {
+        if (intervention == null) return;
+        
+        List<PartUsage> parts = intervention.getParts();
+        if (parts == null || position < 0 || position >= parts.size()) return;
+        
+        parts.remove(position);
+        intervention.setParts(parts);
+        
+        savePartsToFirestore();
+    }
+
+    private void savePartsToFirestore() {
+        if (intervention == null) return;
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("parts", intervention.getParts());
+        updates.put("updatedAt", new java.util.Date());
+
+        db.collection("interventions").document(interventionId)
+                .update(updates)
+                .addOnSuccessListener(aVoid -> {
+                    loadParts();
+                    updatePartsTabBadge();
+                    Toast.makeText(getContext(), "Parts updated successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error updating parts: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void updatePartsSummary() {
+        if (intervention == null || textTotalParts == null) return;
+        
+        List<PartUsage> parts = intervention.getParts();
+        if (parts == null) {
+            parts = new ArrayList<>();
+        }
+
+        int totalParts = parts.size();
+        float totalWeight = 0.0f;
+        float totalCost = 0.0f;
+
+        for (PartUsage partUsage : parts) {
+            totalWeight += partUsage.getTotalWeight();
+            totalCost += partUsage.getTotalPrice();
+        }
+
+        textTotalParts.setText(String.valueOf(totalParts));
+        textTotalWeight.setText(String.format(Locale.getDefault(), "%.2f kg", totalWeight));
+        
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        textTotalCost.setText(currencyFormat.format(totalCost));
+    }
+
+    private void updatePartsTabBadge() {
+        if (intervention == null || textTabParts == null) return;
+        
+        List<PartUsage> parts = intervention.getParts();
+        int count = (parts != null) ? parts.size() : 0;
+        
+        if (count > 0) {
+            textTabParts.setText("Parts (" + count + ")");
+        } else {
+            textTabParts.setText("Parts");
+        }
+    }
+}

@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.air_maint_pro.gestion_avion.AvionListFragment;
+import com.example.air_maint_pro.gestion_vols.MainVolsFragment;
 import com.example.air_maint_pro.intervention_management.InterventionsFragment;
 import com.example.air_maint_pro.Rapport_management.StatistiqueFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,16 +46,24 @@ public class AdminActivity extends AppCompatActivity {
 
         // Load default fragment (home)
         if (savedInstanceState == null) {
-            loadFragment(new TechnicienListFragment());
+            loadFragment(new AdminHomeFragment()); // Changer ici
+            bottomNavigation.setSelectedItemId(R.id.nav_home);
         }
     }
+
 
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
 
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
-            fragment = new TechnicienListFragment();
+            fragment = new AdminHomeFragment();
+            showMainBottomNav();
+        } else if (itemId == R.id.nav_avions) {
+            fragment = new AvionListFragment();
+            showMainBottomNav();
+        } else if (itemId == R.id.nav_vols) {
+            fragment = new MainVolsFragment();
             showMainBottomNav();
         } else if (itemId == R.id.nav_interventions) {
             fragment = new InterventionsFragment();
@@ -65,8 +75,8 @@ public class AdminActivity extends AppCompatActivity {
             fragment = new StatistiqueFragment();
             hideMainBottomNav();
         } else if (itemId == R.id.nav_settings) {
-            // Settings fragment can be added later
-            return false;
+            fragment = new SettingsFragment();
+            showMainBottomNav();
         }
 
         if (fragment != null) {

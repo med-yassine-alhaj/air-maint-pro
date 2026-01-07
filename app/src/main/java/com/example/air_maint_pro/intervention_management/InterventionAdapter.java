@@ -4,12 +4,13 @@ package com.example.air_maint_pro.intervention_management;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.air_maint_pro.Avion;
+import com.example.air_maint_pro.gestion_avion.Avion;
 import com.example.air_maint_pro.R;
 import com.example.air_maint_pro.Technicien;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,9 +29,14 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
     private Map<String, String> avionMatriculeCache = new HashMap<>();
     private Map<String, String> technicianNameCache = new HashMap<>();
     private OnInterventionClickListener onItemClickListener;
+    private OnPDFExportClickListener onPDFExportClickListener;
 
     public interface OnInterventionClickListener {
         void onInterventionClick(Intervention intervention);
+    }
+
+    public interface OnPDFExportClickListener {
+        void onPDFExportClick(Intervention intervention);
     }
 
     public InterventionAdapter(List<Intervention> interventionList) {
@@ -40,6 +46,10 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
 
     public void setOnItemClickListener(OnInterventionClickListener listener) {
         this.onItemClickListener = listener;
+    }
+
+    public void setOnPDFExportClickListener(OnPDFExportClickListener listener) {
+        this.onPDFExportClickListener = listener;
     }
 
     @NonNull
@@ -70,7 +80,7 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                 holder.textPlaneId.setText("Avion: " + avionMatriculeCache.get(avionId));
             } else {
                 holder.textPlaneId.setText("Avion: Chargement...");
-                db.collection("avions").document(avionId)
+                db.collection("Avions").document(avionId)
                         .get()
                         .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
@@ -80,9 +90,9 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                                     avionMatriculeCache.put(avionId, matricule);
                                     // Update only if this holder still shows the same intervention
                                     int currentPosition = holder.getAdapterPosition();
-                                    if (currentPosition != RecyclerView.NO_POSITION && 
-                                        currentPosition < interventionList.size() &&
-                                        interventionList.get(currentPosition).getId().equals(intervention.getId())) {
+                                    if (currentPosition != RecyclerView.NO_POSITION &&
+                                            currentPosition < interventionList.size() &&
+                                            interventionList.get(currentPosition).getId().equals(intervention.getId())) {
                                         holder.textPlaneId.setText("Avion: " + matricule);
                                     }
                                 }
@@ -115,9 +125,9 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
                                     technicianNameCache.put(technicianId, fullName);
                                     // Update only if this holder still shows the same intervention
                                     int currentPosition = holder.getAdapterPosition();
-                                    if (currentPosition != RecyclerView.NO_POSITION && 
-                                        currentPosition < interventionList.size() &&
-                                        interventionList.get(currentPosition).getId().equals(intervention.getId())) {
+                                    if (currentPosition != RecyclerView.NO_POSITION &&
+                                            currentPosition < interventionList.size() &&
+                                            interventionList.get(currentPosition).getId().equals(intervention.getId())) {
                                         holder.textTechnicianId.setText("Technicien: " + fullName);
                                     }
                                 }
@@ -159,6 +169,17 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
         holder.textStatus.setBackground(statusBg);
         holder.textStatus.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
 
+        // Show PDF export button only for "Terminée" status
+        boolean isTerminee = "Terminée".equals(intervention.getStatut()) || "Clôturée".equals(intervention.getStatut());
+        if (holder.buttonExportPDF != null) {
+            holder.buttonExportPDF.setVisibility(isTerminee ? View.VISIBLE : View.GONE);
+            holder.buttonExportPDF.setOnClickListener(v -> {
+                if (onPDFExportClickListener != null) {
+                    onPDFExportClickListener.onPDFExportClick(intervention);
+                }
+            });
+        }
+
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
@@ -174,6 +195,7 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
 
     static class InterventionViewHolder extends RecyclerView.ViewHolder {
         TextView textType, textStatus, textPlaneId, textTechnicianId, textDuration, textDate;
+        Button buttonExportPDF;
 
         public InterventionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -183,6 +205,7 @@ public class InterventionAdapter extends RecyclerView.Adapter<InterventionAdapte
             textTechnicianId = itemView.findViewById(R.id.textTechnicianId);
             textDuration = itemView.findViewById(R.id.textDuration);
             textDate = itemView.findViewById(R.id.textDate);
+            buttonExportPDF = itemView.findViewById(R.id.buttonExportPDF);
         }
     }
 }

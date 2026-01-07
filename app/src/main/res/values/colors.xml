@@ -7,8 +7,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#808080</color>
-
+    <color name="orange">#FF9800</color>
+    <color name="disabled_color">#BDBDBD</color>
+    <color name="error_color">#F44336</color>
+    <color name="success_color">#4CAF50</color>
     <color name="material_on_surface_stroke">#6E6E6E</color>
+
 
 
     <!-- Color palette:                              -->
@@ -93,5 +97,37 @@
     <color name="status_waiting">#FCD34D</color>     <!-- Yellow: Pending (yellow-300) -->
     <color name="status_in_progress">#2563EB</color> <!-- Blue: In Progress (blue-600) -->
     <color name="status_done">#059669</color>        <!-- Green: Completed (green-600) -->
+    <!-- Couleurs principales -->
+    <color name="primary_color">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="accent_color">#FF9800</color>
+    <color name="red">#F44336</color>
+
+    <!-- Couleurs de texte -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+
+    <!-- Arrière-plans -->
+    <color name="light_gray_background">#F5F5F5</color>
+
+    <color name="card_background">#FFFFFF</color>
+
+    <!-- Switch -->
+    <color name="switch_track">#E0E0E0</color>
+
+    <!-- Vous pouvez ajouter ces couleurs si vous voulez le mode sombre -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_card">#1E1E1E</color>
+    <color name="dark_text_primary">#FFFFFF</color>
+    <color name="dark_text_secondary">#B0B0B0</color>
+    <color name="blue_primary">#1565C0</color>
+    <color name="blue_dark">#0D47A1</color>
+    <color name="black_primary">#111111</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_medium">#BDBDBD</color>
+
+
+
 
 </resources>

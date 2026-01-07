@@ -1,6 +1,8 @@
 package com.example.air_maint_pro.intervention_management;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Intervention {
     private String id; // Using String for Firestore document IDs
@@ -16,6 +18,7 @@ public class Intervention {
     private Date createdAt;
     private Date updatedAt;
     private Date dateIntervention;
+    private List<PartUsage> parts; // List of parts used in this intervention
 
     // Empty constructor REQUIRED for Firestore
     public Intervention() {
@@ -24,6 +27,7 @@ public class Intervention {
         this.dateIntervention = new Date();
         this.statut = "Planifiée"; // Default status
         this.dureeHeures = 0.0f;
+        this.parts = new ArrayList<>();
     }
 
     // Constructor with basic parameters
@@ -148,6 +152,18 @@ public class Intervention {
 
     public void setDateIntervention(Date dateIntervention) {
         this.dateIntervention = dateIntervention;
+        this.updatedAt = new Date();
+    }
+
+    public List<PartUsage> getParts() {
+        if (parts == null) {
+            parts = new ArrayList<>();
+        }
+        return parts;
+    }
+
+    public void setParts(List<PartUsage> parts) {
+        this.parts = parts;
         this.updatedAt = new Date();
     }
 

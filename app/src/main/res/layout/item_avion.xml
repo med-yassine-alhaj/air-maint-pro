@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardAvion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Ligne 1 : Immatriculation et état -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvImmatriculation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="F-GABC"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <!-- Badge d'état -->
+            <TextView
+                android:id="@+id/tvEtat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Actif"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:background="@drawable/bg_etat_actif" />
+
+        </LinearLayout>
+
+        <!-- Ligne 2 : Modèle et type -->
+        <TextView
+            android:id="@+id/tvModele"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Airbus A320 (Avion de ligne)"
+            android:textSize="16sp"
+            android:textColor="#7F8C8D"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Ligne 3 : Compagnie -->
+        <TextView
+            android:id="@+id/tvCompagnie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Air France"
+            android:textSize="14sp"
+            android:textColor="#34495E"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Ligne 4 : Heures de vol et actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_clock"
+                app:tint="#3498DB"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tvHeuresVol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1,500 h"
+                android:textSize="14sp"
+                android:textColor="#3498DB" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Bouton QR Code -->
+            <ImageView
+                android:id="@+id/ivQrCode"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_qr_code"
+                app:tint="#3498DB"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

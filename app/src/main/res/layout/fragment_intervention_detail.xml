@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/secondary"
-        android:padding="4dp">
+        android:padding="3dp">
 
         <LinearLayout
             android:id="@+id/tabInfo"
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Info"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="@color/card_text" />
         </LinearLayout>
@@ -129,19 +129,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remarques"
-                android:textSize="14sp"
+                android:text="Remarque"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="@color/muted_text" />
-
-            <ImageView
-                android:id="@+id/iconRemarquesCheck"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@android:drawable/checkbox_on_background"
-                android:layout_marginStart="4dp"
-                android:visibility="gone"
-                app:tint="@color/status_done" />
         </LinearLayout>
 
         <LinearLayout
@@ -160,7 +151,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Solution"
-                android:textSize="14sp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/muted_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabParts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/tab_background_unselected"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/textTabParts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parts"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="@color/muted_text" />
         </LinearLayout>
@@ -181,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fermer"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="@color/muted_text" />
         </LinearLayout>

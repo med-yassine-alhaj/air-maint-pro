@@ -6,15 +6,15 @@
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Add these permissions -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_plane_blue"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_plane_blue"
         android:supportsRtl="true"
         android:theme="@style/Theme.AirMaintPro"
         tools:targetApi="31">
@@ -33,13 +33,14 @@
         <!-- Activité de Login -->
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AirMaintPro.NoActionBar">
+            android:theme="@style/AppTheme.Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <!-- Activité Admin -->
         <activity
@@ -47,12 +48,36 @@
             android:exported="false"
             android:theme="@style/Theme.AirMaintPro" />
 
+        <activity
+            android:name=".gestion_vols.AddEditEquipageActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".gestion_vols.AddEditEquipeActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".gestion_vols.DetailEquipeActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+
+        <activity
+            android:name=".gestion_vols.AssignerVolActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+        <activity
+            android:name=".gestion_vols.AssignerEquipeActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+
         <!-- Activité Création Technicien -->
         <activity
             android:name=".TechnicienActivity"
             android:exported="false"
             android:theme="@style/Theme.AirMaintPro"
             android:label="Créer Technicien" />
+        <activity
+            android:name=".gestion_vols.AddEditVolActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AirMaintPro"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!-- AJOUTER CETTE ACTIVITÉ -->
         <activity
@@ -60,7 +85,43 @@
             android:exported="false"
             android:theme="@style/Theme.AirMaintPro"
             android:label="Espace Technicien" />
+        <activity
+            android:name=".EditTechnicienActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.AddAvionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity
+            android:name=".gestion_avion.AvionDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity
+            android:name=".gestion_avion.EditAvionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.QrCodeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.QRScannerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.AvionInterventionsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".gestion_avion.AssignAvionTechnicienActivity"
+            android:label="Assigner un technicien"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
 
     </application>
+
 
 </manifest>

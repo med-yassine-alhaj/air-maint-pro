@@ -46,6 +46,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.google.firebase:firebase-common-ktx:20.4.2")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     //pour stats
@@ -64,6 +67,10 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    // Pour les QR Codes
+    implementation("com.google.zxing:core:3.5.2")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
 
 // For PDF generation
     implementation("com.itextpdf:itext7-core:7.2.5")
@@ -71,6 +78,11 @@ dependencies {
     implementation("com.github.yalantis:ucrop:2.2.6")
 // For file picker (optional)
     implementation("com.github.jaiselrahman:FilePicker:1.3.2")
+
+    // Pour les dates
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
 
 }

@@ -26,7 +26,7 @@ import java.util.List;
 public class TechnicienListFragment extends Fragment {
 
     private TextView tvWelcome;
-    private Button btnCreateTechnicien, btnLogout;
+    private Button btnCreateTechnicien;
     private RecyclerView rvTechnicien;
 
     private FirebaseAuth auth;
@@ -46,7 +46,6 @@ public class TechnicienListFragment extends Fragment {
 
         // UI
         tvWelcome = view.findViewById(R.id.tvWelcome);
-        btnLogout = view.findViewById(R.id.btnLogout);
         btnCreateTechnicien = view.findViewById(R.id.btnCreateTechnicien);
         rvTechnicien = view.findViewById(R.id.rvTechnicien);
 
@@ -63,16 +62,7 @@ public class TechnicienListFragment extends Fragment {
             startActivity(new Intent(getContext(), TechnicienActivity.class));
         });
 
-        // Déconnexion
-        btnLogout.setOnClickListener(v -> {
-            auth.signOut();
-            if (getActivity() != null) {
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+
 
         return view;
     }
@@ -166,12 +156,27 @@ public class TechnicienListFragment extends Fragment {
                 .show();
     }
 
+    // Modifier la méthode updateTechnicien dans TechnicienListFragment
     private void updateTechnicien(Technicien e) {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Modifier le technicien")
-                .setMessage("Fonctionnalité d'édition complète à implémenter")
-                .setPositiveButton("OK", null)
-                .show();
+        Intent intent = new Intent(getContext(), EditTechnicienActivity.class);
+        intent.putExtra("technicienId", e.id);
+        intent.putExtra("nom", e.nom);
+        intent.putExtra("prenom", e.prenom);
+        intent.putExtra("email", e.email);
+        intent.putExtra("age", e.age);
+        intent.putExtra("departement", e.departement);
+        startActivityForResult(intent, 1);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+            // Rafraîchir la liste
+            loadTechnicien();
+            Toast.makeText(getContext(), "Technicien modifié avec succès", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void deleteTechnicien(Technicien e) {
@@ -194,5 +199,13 @@ public class TechnicienListFragment extends Fragment {
                 .show();
     }
 }
+
+
+
+
+
+
+
+
 
 
