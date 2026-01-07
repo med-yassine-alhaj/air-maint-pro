@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.air_maint_pro.R;
-import com.example.air_maint_pro.Technicien;
+import com.example.air_maint_pro.gestion_vols.Vol;
 import com.example.air_maint_pro.TechnicienListFragment;
 import com.example.air_maint_pro.intervention_management.Intervention;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,6 +42,8 @@ public class StatistiqueFragment extends Fragment {
     // Pour le calcul des pourcentages
     private int interventionsThisWeek = 0;
     private int interventionsLastWeek = 0;
+    private int volsThisWeek = 0;
+    private int volsLastWeek = 0;
     private int activeTechnicians = 0;
     private int totalTechnicians = 0;
 
@@ -81,9 +83,9 @@ public class StatistiqueFragment extends Fragment {
         recentActivityRecyclerView = view.findViewById(R.id.recentActivityRecyclerView);
 
         // Valeurs par défaut
-        txtVolsCount.setText("5");
-        txtVolsPercent.setText("+12%");
-        txtVolsPercent.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+        txtVolsCount.setText("0");
+        txtVolsPercent.setText("0%");
+        txtVolsPercent.setTextColor(getResources().getColor(android.R.color.darker_gray));
     }
 
     private void setupRecyclerView() {
@@ -164,7 +166,10 @@ public class StatistiqueFragment extends Fragment {
         calendar.set(Calendar.SECOND, 59);
         Date endOfLastWeek = calendar.getTime();
 
-        // 1. Compter les interventions cette semaine
+        // 1. Compter les vols cette semaine
+        countVolsThisWeek(startOfThisWeek, endOfThisWeek, startOfLastWeek, endOfLastWeek);
+
+        // 2. Compter les interventions cette semaine
         db.collection("interventions")
                 .whereGreaterThanOrEqualTo("dateIntervention", startOfThisWeek)
                 .whereLessThanOrEqualTo("dateIntervention", endOfThisWeek)
@@ -182,7 +187,7 @@ public class StatistiqueFragment extends Fragment {
                     Toast.makeText(getContext(), "Erreur chargement interventions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
-        // 2. Compter les techniciens (collection "Users" avec role = "technicien")
+        // 3. Compter les techniciens (collection "Users" avec role = "technicien")
         db.collection("Users")
                 .whereEqualTo("role", "technicien")  // CORRECTION ICI : "technicien" en minuscule
                 .get()
@@ -209,6 +214,69 @@ public class StatistiqueFragment extends Fragment {
                     txtTechniciensPercent.setText("N/A");
                     Toast.makeText(getContext(), "Erreur chargement techniciens: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void countVolsThisWeek(Date startOfThisWeek, Date endOfThisWeek,
+                                   Date startOfLastWeek, Date endOfLastWeek) {
+        // Rechercher les vols dont la date de départ est dans cette semaine
+        db.collection("vols")
+                .whereGreaterThanOrEqualTo("date_depart", startOfThisWeek)
+                .whereLessThanOrEqualTo("date_depart", endOfThisWeek)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    volsThisWeek = queryDocumentSnapshots.size();
+                    txtVolsCount.setText(String.valueOf(volsThisWeek));
+
+                    // Maintenant compter la semaine dernière pour le pourcentage
+                    countVolsLastWeek(startOfLastWeek, endOfLastWeek);
+                })
+                .addOnFailureListener(e -> {
+                    txtVolsCount.setText("--");
+                    txtVolsPercent.setText("N/A");
+                    Toast.makeText(getContext(), "Erreur chargement vols: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void countVolsLastWeek(Date startOfLastWeek, Date endOfLastWeek) {
+        db.collection("vols")
+                .whereGreaterThanOrEqualTo("date_depart", startOfLastWeek)
+                .whereLessThanOrEqualTo("date_depart", endOfLastWeek)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    volsLastWeek = queryDocumentSnapshots.size();
+
+                    // Calculer le pourcentage de changement
+                    calculateVolsPercentage();
+                })
+                .addOnFailureListener(e -> {
+                    txtVolsPercent.setText("N/A");
+                    Toast.makeText(getContext(), "Erreur calcul pourcentage vols: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void calculateVolsPercentage() {
+        if (volsLastWeek > 0) {
+            float percentChange = ((float)(volsThisWeek - volsLastWeek) / volsLastWeek) * 100;
+            txtVolsPercent.setText(String.format(Locale.FRENCH, "%.0f%%", percentChange));
+
+            if (percentChange > 0) {
+                txtVolsPercent.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                txtVolsPercent.setText("+" + txtVolsPercent.getText());
+            } else if (percentChange < 0) {
+                txtVolsPercent.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            } else {
+                txtVolsPercent.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            }
+        } else {
+            // Pas de données la semaine dernière
+            if (volsThisWeek > 0) {
+                txtVolsPercent.setText("+100%");
+                txtVolsPercent.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            } else {
+                txtVolsPercent.setText("0%");
+                txtVolsPercent.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            }
+        }
     }
 
     private void countInterventionsLastWeek(Date startOfLastWeek, Date endOfLastWeek) {
